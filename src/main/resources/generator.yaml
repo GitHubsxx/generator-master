@@ -1,0 +1,13 @@
+db:
+  url: jdbc:mysql://localhost:3306/adult_edu?useUnicode=true&characterEncoding=UTF-8
+  username: adult_edu
+  password: adult_edu
+author: sxx
+packageName: com.bwol.adultEdu.enroll
+title: 年度
+path:
+  controller: controller
+  service: service
+  dao: dao
+  entity: entity
+  mapper: mappers
