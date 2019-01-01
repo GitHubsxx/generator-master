@@ -1,7 +1,7 @@
 package com.sxx.generator.db;
 
 /**
- * Author GreedyStar
+ * Author sxx
  * Date   2018-10-24
  */
 public class DriverFactory {

@@ -5,7 +5,7 @@
  * @author      bfsu
  * @version     1.0
  * @see
- *  2018-12-31 bfsu Create File
+ *  2019-01-01 bfsu Create File
  **************************************************/
 package com.bwol.adultEdu.enroll.controller;
 
@@ -40,7 +40,7 @@ import java.util.List;
 
 /**
  * Author sxx
- * Date  2018-12-31
+ * Date  2019-01-01
  */
 @Controller
 @RequestMapping(value = "/annual")

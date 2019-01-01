@@ -5,7 +5,7 @@
  * @author      bfsu
  * @version     1.0
  * @see
- *  2018-12-31 bfsu Create File
+ *  2019-01-01 bfsu Create File
  **************************************************/
 package com.bwol.adultEdu.enroll.dao;
 
@@ -15,8 +15,8 @@ import java.util.List;
 
 /**
 * Author sxx
-* Date  2018-12-31
+* Date  2019-01-01
 */
-public interface AnnualDao extends DAO<Annual>{
+public interface AnnualDAO extends DAO<Annual>{
 
 }

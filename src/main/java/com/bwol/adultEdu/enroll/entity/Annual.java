@@ -5,7 +5,7 @@
  * @author      bfsu
  * @version     1.0
  * @see
- *  2018-12-31 bfsu Create File
+ *  2019-01-01 bfsu Create File
  **************************************************/
 package com.bwol.adultEdu.enroll.entity;
 
@@ -21,11 +21,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
 * Author sxx
-* Date  2018-12-31
+* Date  2019-01-01
 */
 public class Annual extends EntitySupport implements Entity {
     private static final long serialVersionUID = 1L;
-    private Long annualId;
+    private Long id;
     private String title;
     private String simpleTitle;
     private Integer isEnroll;
@@ -40,8 +40,8 @@ public class Annual extends EntitySupport implements Entity {
     public Annual(){
     }
 
-    public void setAnnualId (Long annualId) {this.annualId = annualId;} 
-    public Long getAnnualId(){ return annualId;} 
+    public void setId (Long id) {this.id = id;} 
+    public Long getId(){ return id;} 
     public void setTitle (String title) {this.title = title;} 
     public String getTitle(){ return title;} 
     public void setSimpleTitle (String simpleTitle) {this.simpleTitle = simpleTitle;} 

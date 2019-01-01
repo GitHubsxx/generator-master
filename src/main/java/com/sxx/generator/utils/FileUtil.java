@@ -62,6 +62,12 @@ public class FileUtil {
                 return FreemarketConfigUtils.getInstance().getTemplate("Mapper.ftl");
             case FreemarketConfigUtils.TYPE_HIBERNATE:
                 return FreemarketConfigUtils.getInstance().getTemplate("Hibernate.ftl");
+            case FreemarketConfigUtils.TYPE_INDEX:
+                return FreemarketConfigUtils.getInstance().getTemplate("Index.ftl");
+            case FreemarketConfigUtils.TYPE_INPUT:
+                return FreemarketConfigUtils.getInstance().getTemplate("Input.ftl");
+            case FreemarketConfigUtils.TYPE_LIST:
+                return FreemarketConfigUtils.getInstance().getTemplate("List.ftl");
             default:
                 return null;
         }

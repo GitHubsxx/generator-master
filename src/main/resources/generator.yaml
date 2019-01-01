@@ -11,3 +11,4 @@ path:
   dao: dao
   entity: entity
   mapper: mappers
+  ftl: ftl

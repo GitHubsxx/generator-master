@@ -5,7 +5,7 @@ import com.sxx.generator.utils.StringUtil;
 import java.io.Serializable;
 
 /**
- * Author GreedyStar
+ * Author sxx
  * Date   2018/4/19
  */
 public class ColumnInfo implements Serializable {

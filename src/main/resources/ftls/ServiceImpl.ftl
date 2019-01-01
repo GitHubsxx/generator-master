@@ -9,7 +9,7 @@
  **************************************************/
 package ${BasePackageName}${ServicePackageName};
 
-import ${BasePackageName}${DaoPackageName}.${ClassName}Dao;
+import ${BasePackageName}${DaoPackageName}.${ClassName}DAO;
 import ${BasePackageName}${EntityPackageName}.${ClassName};
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +17,7 @@ import com.bwol.framework.service.ServiceSupport;
 import com.bwol.framework.exception.ValidationException;
 import org.slf4j.LoggerFactory;
 import com.bwol.framework.controller.LoginInfo;
+import java.util.Date;
 
 import java.util.List;
 
@@ -28,11 +29,11 @@ import java.util.List;
 public class ${ClassName}ServiceImpl extends ServiceSupport<${ClassName}> implements ${ClassName}Service{
     private final  org.slf4j.Logger logger = LoggerFactory.getLogger(${ClassName}ServiceImpl.class);
     @Autowired
-    private ${ClassName}Dao ${EntityName}Dao;
+    private ${ClassName}DAO ${EntityName}DAO;
 
     @Override
-	public ${ClassName}Dao getDao() {
-	    return ${EntityName}Dao;
+	public ${ClassName}DAO getDao() {
+	    return ${EntityName}DAO;
 	}
     /**
 	 * 是否可以删除
@@ -49,15 +50,15 @@ public class ${ClassName}ServiceImpl extends ServiceSupport<${ClassName}> implem
 	 * @param loginInfo
 	 */
     @Override
-	void saveOrUpdatePro(${ClassName} ${EntityName}, LoginInfo loginInfo){
+	public void saveOrUpdatePro(${ClassName} ${EntityName}, LoginInfo loginInfo){
             try{
                 if(${EntityName}.isNew()){
                     ${EntityName}.setCreateUserId(loginInfo.getUserId());
                     ${EntityName}.setCreateUserName(loginInfo.getLoginName());
                     ${EntityName}.setCreateTime(new Date());
-                    ${EntityName}DAO.save(${EntityName});
+                    this.${EntityName}DAO.save(${EntityName});
                 }else {
-                    ${ClassName} ${EntityName}_ = ${EntityName}DAO.getById(${EntityName}.getId());
+                    ${ClassName} ${EntityName}_ = this.${EntityName}DAO.getById(${EntityName}.getId());
                     if (${EntityName}_ == null){
                         throw new ValidationException("程序未知错误");
                     }
@@ -65,7 +66,7 @@ public class ${ClassName}ServiceImpl extends ServiceSupport<${ClassName}> implem
                     ${EntityName}_.setUpdateUserId(loginInfo.getUserId());
                     ${EntityName}_.setUpdateUserName(loginInfo.getUserName());
                     ${EntityName}_.setUpdateTime(new Date());
-                    ${EntityName}DAO.update(${EntityName}_);
+                    this.${EntityName}DAO.update(${EntityName}_);
                 }
 
             }catch (Exception e){

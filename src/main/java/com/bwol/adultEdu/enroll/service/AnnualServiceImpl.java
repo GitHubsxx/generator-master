@@ -5,11 +5,11 @@
  * @author      bfsu
  * @version     1.0
  * @see
- *  2018-12-31 bfsu Create File
+ *  2019-01-01 bfsu Create File
  **************************************************/
 package com.bwol.adultEdu.enroll.service;
 
-import com.bwol.adultEdu.enroll.dao.AnnualDao;
+import com.bwol.adultEdu.enroll.dao.AnnualDAO;
 import com.bwol.adultEdu.enroll.entity.Annual;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,22 +17,23 @@ import com.bwol.framework.service.ServiceSupport;
 import com.bwol.framework.exception.ValidationException;
 import org.slf4j.LoggerFactory;
 import com.bwol.framework.controller.LoginInfo;
+import java.util.Date;
 
 import java.util.List;
 
 /**
 * Author sxx
-* Date  2018-12-31
+* Date  2019-01-01
 */
 @Service
 public class AnnualServiceImpl extends ServiceSupport<Annual> implements AnnualService{
     private final  org.slf4j.Logger logger = LoggerFactory.getLogger(AnnualServiceImpl.class);
     @Autowired
-    private AnnualDao annualDao;
+    private AnnualDAO annualDAO;
 
     @Override
-	public AnnualDao getDao() {
-	    return annualDao;
+	public AnnualDAO getDao() {
+	    return annualDAO;
 	}
     /**
 	 * 是否可以删除
@@ -49,15 +50,15 @@ public class AnnualServiceImpl extends ServiceSupport<Annual> implements AnnualS
 	 * @param loginInfo
 	 */
     @Override
-	void saveOrUpdatePro(Annual annual, LoginInfo loginInfo){
+	public void saveOrUpdatePro(Annual annual, LoginInfo loginInfo){
             try{
                 if(annual.isNew()){
                     annual.setCreateUserId(loginInfo.getUserId());
                     annual.setCreateUserName(loginInfo.getLoginName());
                     annual.setCreateTime(new Date());
-                    annualDAO.save(annual);
+                    this.annualDAO.save(annual);
                 }else {
-                    Annual annual_ = annualDAO.getById(annual.getId());
+                    Annual annual_ = this.annualDAO.getById(annual.getId());
                     if (annual_ == null){
                         throw new ValidationException("程序未知错误");
                     }
@@ -65,7 +66,7 @@ public class AnnualServiceImpl extends ServiceSupport<Annual> implements AnnualS
                     annual_.setUpdateUserId(loginInfo.getUserId());
                     annual_.setUpdateUserName(loginInfo.getUserName());
                     annual_.setUpdateTime(new Date());
-                    annualDAO.update(annual_);
+                    this.annualDAO.update(annual_);
                 }
 
             }catch (Exception e){

@@ -1,7 +1,7 @@
 package com.sxx.generator.invoker.base;
 
 /**
- * Author GreedyStar
+ * Author sxx
  * Date   2018/9/5
  */
 public abstract class BaseBuilder {

@@ -29,6 +29,10 @@ public class SingleInvoker extends BaseInvoker {
         taskQueue.add(new EntityTask(className, tableInfos));
         taskQueue.add(new MapperTask(className, tableName, tableInfos));
         taskQueue.add(new HibernateTask(className, tableName, tableInfos));
+        taskQueue.add(new IndexTask(className, tableInfos));
+        taskQueue.add(new InputTask(className, tableInfos));
+        taskQueue.add(new ListTask(className, tableInfos));
+
     }
 
     public static class Builder extends BaseBuilder {

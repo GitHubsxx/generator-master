@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Author GreedyStar
+ * Author sxx
  * Date   2018/9/5
  */
 public abstract class BaseInvoker implements Invoker {

@@ -5,7 +5,7 @@
  * @author      bfsu
  * @version     1.0
  * @see
- *  2018-12-31 bfsu Create File
+ *  2019-01-01 bfsu Create File
  **************************************************/
 package com.bwol.adultEdu.enroll.service;
 
@@ -16,7 +16,7 @@ import com.bwol.framework.controller.LoginInfo;
 
 /**
 * Author sxx
-* Date  2018-12-31
+* Date  2019-01-01
 */
 public interface AnnualService extends Service<Annual>{
 

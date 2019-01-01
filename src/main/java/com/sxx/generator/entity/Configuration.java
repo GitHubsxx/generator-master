@@ -98,16 +98,18 @@ public class Configuration implements Serializable {
         private String dao;
         private String entity;
         private String mapper;
+        private String ftl;
 
         public Path() {
         }
 
-        public Path(String controller, String service, String dao, String entity, String mapper) {
+        public Path(String controller, String service, String dao, String entity, String mapper,String ftl) {
             this.controller = controller;
             this.service = service;
             this.dao = dao;
             this.entity = entity;
             this.mapper = mapper;
+            this.ftl = ftl;
         }
 
         public String getController() {
@@ -150,6 +152,13 @@ public class Configuration implements Serializable {
             this.mapper = mapper;
         }
 
+        public String getFtl() {
+            return ftl;
+        }
+
+        public void setFtl(String ftl) {
+            this.ftl = ftl;
+        }
     }
 
 }

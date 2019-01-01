@@ -17,6 +17,6 @@ import java.util.List;
 * Author ${Author}
 * Date  ${Date}
 */
-public interface ${ClassName}Dao extends DAO<${ClassName}>{
+public interface ${ClassName}DAO extends DAO<${ClassName}>{
 
 }

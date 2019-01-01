@@ -37,7 +37,7 @@ public class DaoTask extends BaseTask {
         daoData.put("EntityName", StringUtil.firstToLowerCase(className));
         daoData.put("Title",ConfigUtil.getConfiguration().getTitle());
         String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getDao());
-        String fileName = className + "Dao.java";
+        String fileName = className + "DAO.java";
         // 生成dao文件
         FileUtil.generateToJava(FreemarketConfigUtils.TYPE_DAO, daoData, filePath + fileName);
     }
