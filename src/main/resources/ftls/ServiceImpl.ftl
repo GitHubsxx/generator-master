@@ -18,6 +18,7 @@ import com.bwol.framework.exception.ValidationException;
 import org.slf4j.LoggerFactory;
 import com.bwol.framework.controller.LoginInfo;
 import java.util.Date;
+import com.alibaba.fastjson.JSON;
 
 import java.util.List;
 
@@ -70,7 +71,7 @@ public class ${ClassName}ServiceImpl extends ServiceSupport<${ClassName}> implem
                 }
 
             }catch (Exception e){
-                logger.info("${EntityName} param:",${EntityName}.getTitle(),e);
+                logger.info("${EntityName} param:",JSON.toJSONString(${EntityName}),e);
                 throw new ValidationException("保存失败");
              }
     };

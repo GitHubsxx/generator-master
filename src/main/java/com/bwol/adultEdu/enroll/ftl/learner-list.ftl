@@ -16,7 +16,7 @@
 
 		<tr>
 			<th><input type="checkbox" class="bscheckall"></th>
-			<th>年度名称</th>
+			<th>学员名称</th>
 			<th>是否有效</th>
 			<th>创建人姓名</th>
 			<th>创建时间</th>
@@ -50,11 +50,11 @@
 						${item.updateTime}
 					</td>
 					<td>
-						<@button icon="pencil" type="primary" size="sm" onclick="bfsu.add('${base}/base/annual/input/${item.id}','修改年度');">修改年度</@button>
-						<@button icon="remove" 	 type="primary" onclick="bfsu.del('${base}/base/annual/delete/${item.id}','从列表中删除？')">删除</@button>
+						<@button icon="pencil" type="primary" size="sm" onclick="bfsu.add('${base}/base/learner/input/${item.id}','修改学员');">修改学员</@button>
+						<@button icon="remove" 	 type="primary" onclick="bfsu.del('${base}/base/learner/delete/${item.id}','从列表中删除？')">删除</@button>
 					</td>
 				</tr>
 				</#list>
 			</tbody>
-		</@list>
+</@list>
 

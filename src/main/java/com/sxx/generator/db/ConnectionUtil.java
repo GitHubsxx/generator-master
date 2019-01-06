@@ -58,9 +58,9 @@ public class ConnectionUtil {
         for (int i = 1; i <= metaData.getColumnCount(); i++) {
             ColumnInfo info;
             if (metaData.getColumnName(i).equals(primaryKey)) {
-                info = new ColumnInfo(metaData.getColumnName(i), metaData.getColumnType(i), true);
+                info = new ColumnInfo(metaData.getColumnName(i), metaData.getColumnType(i), true, metaData.getPrecision(i));
             } else {
-                info = new ColumnInfo(metaData.getColumnName(i), metaData.getColumnType(i), false);
+                info = new ColumnInfo(metaData.getColumnName(i), metaData.getColumnType(i), false, metaData.getPrecision(i));
             }
             columnInfos.add(info);
         }

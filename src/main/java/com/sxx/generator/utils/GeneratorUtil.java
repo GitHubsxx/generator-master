@@ -64,6 +64,10 @@ public class GeneratorUtil {
                 if (i != 0) {
                     sb.append("    ");
                 }
+                //主键就id
+                if(infos.get(i).isPrimaryKey())
+                    sb.append("private ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append("id").append(";\n");
+                else
                 sb.append("private ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append("; \n");
             }
         }
@@ -130,11 +134,17 @@ public class GeneratorUtil {
                 if (i != 0) {
                     sb.append("    ");
                 }
-                sb.append("public void set").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append(" (").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(") {this.").append(infos.get(i).getPropertyName()).append(" = ").append(infos.get(i).getPropertyName()).append(";} \n");
-                if (infos.get(i).getType() == Types.BIT || infos.get(i).getType() == Types.TINYINT) {
-                    sb.append("    ").append("public ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" is").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n");
-                } else {
-                    sb.append("    ").append("public ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" get").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n");
+                //主键id
+                if (infos.get(i).isPrimaryKey()) {
+                    sb.append("public void setId").append(" (").append("Long").append(" ").append("id").append(") {this.").append("id").append(" = ").append("id").append(";} \n");
+                    sb.append("    ").append("public ").append("Long").append(" getId").append("(){ return ").append("id").append(";} \n");
+                }else {
+                    sb.append("public void set").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append(" (").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(") {this.").append(infos.get(i).getPropertyName()).append(" = ").append(infos.get(i).getPropertyName()).append(";} \n");
+                    if (infos.get(i).getType() == Types.BIT || infos.get(i).getType() == Types.TINYINT) {
+                        sb.append("    ").append("public ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" is").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n");
+                    } else {
+                        sb.append("    ").append("public ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" get").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n");
+                    }
                 }
             }
         }
@@ -188,7 +198,6 @@ public class GeneratorUtil {
         }
         return sb.toString().substring(0, sb.toString().length() - 2);
     }
-
     /**
      * 对应模板文件${ResultMap}字段 用于 single、one2many、many2many
      *
@@ -202,6 +211,36 @@ public class GeneratorUtil {
                 sb.append("<id column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             } else {
                 sb.append("        ").append("<result column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 对应模板文件${ResultMap}字段 用于 single、one2many、many2many
+     *
+     * @param infos
+     * @return
+     */
+    public static String generateMapperResultMap(List<ColumnInfo> infos,String parentTableName,String parentClassName,String foreignKey,Map<String, String> mapperData) {
+        StringBuilder sb = new StringBuilder();
+        for (ColumnInfo info : infos) {
+            if (info.isPrimaryKey()) {
+                sb.append("\t\t<id name=\"id\" type=\"" + TypeUntilHibernateXml.parseTypeFormSqlType(info.getType()) + "\">\n");
+                sb.append("\t\t\t<column name=\"" + generateHibernateName(info.getPropertyName()) + "\" precision=\"16\" scale=\"0\"/>\n");
+                sb.append("\t\t\t<generator class=\"native\" />\n");
+                sb.append("\t\t</id>\n\n");
+                //sb.append("<id column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
+            } else if (info.getColumnName().equalsIgnoreCase(foreignKey)){
+                sb.append("\t\t<many-to-one name=\""+info.getPropertyName()+"\"  class=\""+mapperData.get("BasePackageName")+mapperData.get("EntityPackageName")+"."+parentClassName+"\"  fetch=\"select\">\n");
+                sb.append("\t\t\t<column name=\""+generateHibernateName(info.getPropertyName())+"\" precision=\"16\" scale=\"0\" />\n");
+                sb.append("\t\t</many-to-one>\n");
+
+            }else {
+                sb.append("\t\t<property generated=\"never\" lazy=\"false\" name=\"" + info.getPropertyName() + "\" type=\"" + TypeUntilHibernateXml.parseTypeFormSqlType(info.getType()) + "\">\n");
+                sb.append("\t\t\t<column length=\""+info.getPrecision()+"\" name=\"" + generateHibernateName(info.getPropertyName()) + "\" />\n");
+                sb.append("\t\t</property>\n\n");
+                //sb.append("        ").append("<result column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             }
         }
         return sb.toString();
@@ -430,7 +469,7 @@ public class GeneratorUtil {
                 //sb.append("<id column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             } else {
                 sb.append("\t\t<property generated=\"never\" lazy=\"false\" name=\"" + info.getPropertyName() + "\" type=\"" + TypeUntilHibernateXml.parseTypeFormSqlType(info.getType()) + "\">\n");
-                sb.append("\t\t\t<column length=\"20\" name=\"" + generateHibernateName(info.getPropertyName()) + "\" />\n");
+                sb.append("\t\t\t<column length=\""+info.getPrecision()+"\" name=\"" + generateHibernateName(info.getPropertyName()) + "\" />\n");
                 sb.append("\t\t</property>\n\n");
                 //sb.append("        ").append("<result column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             }
@@ -493,9 +532,12 @@ public class GeneratorUtil {
         sb.append("<#include \"/templates/ace/ace-inc.ftl\">\n\n").append("<@html>\n\n").append("<@head>\n\n")
                 .append("</@head>\n\n").append("<@body>\n\n").append("<@nav '"+entityData.get("Title")+"'/>\n\n")
                 .append("<@content url=\"${base}/base/"+entityData.get("EntityName")+"/list\" >\n\n")
-                .append("\t\t\t<@query queryUrl=\"${base}/base/"+entityData.get("EntityName")+"/list\">\n\n")
-                .append("\t\t\t\t<@querygroup  title='"+entityData.get("Title")+"名称'><input type='text' name='query.title!lk@s'  class=\"form-control\" placeholder=\"请输入"+entityData.get("Title")+"名称\"></@querygroup>\n\n")
-                .append("\t\t\t</@query>\n\n").append("</@content>\n\n").append("</@body>\n\n").append("</@html>");
+                .append("\t\t<@query queryUrl=\"${base}/base/"+entityData.get("EntityName")+"/list\">\n\n")
+                .append("\t\t\t<@querygroup  title='"+entityData.get("Title")+"名称'><input type='text' name='query.title!lk@s'  class=\"form-control\" placeholder=\"请输入"+entityData.get("Title")+"名称\"></@querygroup>\n\n")
+                .append("\t\t\t<@querygroup  title='状态'><@select list=BfsuolConstants.GLOBAL_YESNO name=\"query.isEnroll!eq@i\" listKey='' listValue='' id=\"statusSelect\" multi=false search=false/></@querygroup>\n\n")
+                .append("\t\t</@query>\n")
+                .append("\t\t<@button icon=\"pencil\" type=\"primary\" size=\"sm\" onclick=\"bfsu.add('${base}/base/"+entityData.get("EntityName")+"/input','添加"+entityData.get("Title")+"');\">添加"+entityData.get("Title")+"</@button>\n")
+                .append("</@content>\n\n").append("</@body>\n\n").append("</@html>");
 
         return sb.toString();
     }
@@ -523,9 +565,9 @@ public class GeneratorUtil {
                 .append("\t\t<input type=\"hidden\" name=\"id\" value=\"${"+entityData.get("EntityName")+".id}\"/>\n")
                 .append("\t\t<@formgroup title='"+entityData.get("Title")+"名称'>\n")
                 .append("\t\t\t<input type=\"text\" name=\"title\" value=\"${"+entityData.get("EntityName")+".title}\" placeholder=\"例：2018\"  check-type=\"required\" maxlength=\"100\">\n")
-                .append("\t\t</@formgroup>\n\n").append("\t\t<@formgroup title='是否有效'>\n\n")
+                .append("\t\t</@formgroup>\n\n").append("\t\t<@formgroup title='是否有效'>\n")
                 .append("\t\t\t<@swichButton name='isEnroll' title='是否' val=\"${"+entityData.get("EntityName")+".status}\" onVal=BfsuolConstants.GLOBAL_YESNO_YES offVal=BfsuolConstants.GLOBAL_YESNO_NO></@swichButton>\n")
-                .append("\t\t\t<b><font style=\"color:red;\">说明："+entityData.get("Title")+"只能有一个为 “是”</font></b>\n\n")
+                .append("\t\t\t<b><font style=\"color:red;\">说明："+entityData.get("Title")+"只能有一个为 “是”</font></b>\n")
                 .append("\t\t</@formgroup>\n").append("</@input>");
         return sb.toString();
     }
@@ -566,7 +608,7 @@ public class GeneratorUtil {
                 .append("\t\t\t\t\t\t<@button icon=\"pencil\" type=\"primary\" size=\"sm\" onclick=\"bfsu.add('${base}/base/"+entityData.get("EntityName")+"/input/${item.id}','修改"+entityData.get("Title")+"');\">修改"+entityData.get("Title")+"</@button>\n")
                 .append("\t\t\t\t\t\t<@button icon=\"remove\" \t type=\"primary\" onclick=\"bfsu.del('${base}/base/"+entityData.get("EntityName")+"/delete/${item.id}','从列表中删除？')\">删除</@button>\n")
                 .append("\t\t\t\t\t</td>\n")
-                .append("\t\t\t\t</tr>\n").append("\t\t\t\t</#list>\n").append("\t\t\t</tbody>\n").append("\t\t</@list>\n");
+                .append("\t\t\t\t</tr>\n").append("\t\t\t\t</#list>\n").append("\t\t\t</tbody>\n").append("</@list>\n");
 
         return sb.toString();
     }

@@ -23,11 +23,16 @@ public class One2ManyInvoker extends BaseInvoker {
     @Override
     protected void initTasks() {
         taskQueue.add(new DaoTask(className));
+        taskQueue.add(new DaoImplTask(className));
         taskQueue.add(new ServiceTask(className));
+        taskQueue.add(new ServiceImplTask(className));
         taskQueue.add(new ControllerTask(className));
-        taskQueue.add(new EntityTask(className, parentClassName, foreignKey, tableInfos));
-        taskQueue.add(new EntityTask(parentClassName, parentTableInfos));
-        taskQueue.add(new MapperTask(tableName, className, parentTableName, parentClassName, foreignKey, tableInfos, parentTableInfos));
+        taskQueue.add(new EntityTask(className,parentClassName,foreignKey,tableInfos));
+        //taskQueue.add(new MapperTask(className, tableName, tableInfos));
+        taskQueue.add(new HibernateTask(tableName,className,parentTableName,parentClassName,foreignKey,tableInfos,parentTableInfos));
+        taskQueue.add(new IndexTask(className, tableInfos));
+        taskQueue.add(new InputTask(className, tableInfos));
+        taskQueue.add(new ListTask(className, tableInfos));
     }
 
     public static class Builder extends BaseBuilder {

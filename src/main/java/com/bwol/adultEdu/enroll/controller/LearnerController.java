@@ -1,16 +1,16 @@
 /****************************************************
- * Description: Controller for 年度管理
+ * Description: Controller for 学员管理
  * Copyright:   Copyright (c) 2019
  * Company:     beiwaionline
  * @author      bfsu
  * @version     1.0
  * @see
- *  2019-01-01 bfsu Create File
+ *  2019-01-06 bfsu Create File
  **************************************************/
 package com.bwol.adultEdu.enroll.controller;
 
-import com.bwol.adultEdu.enroll.entity.Annual;
-import com.bwol.adultEdu.enroll.service.AnnualService;
+import com.bwol.adultEdu.enroll.entity.Learner;
+import com.bwol.adultEdu.enroll.service.LearnerService;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,15 +40,15 @@ import java.util.List;
 
 /**
  * Author sxx
- * Date  2019-01-01
+ * Date  2019-01-06
  */
 @Controller
-@RequestMapping(value = "/annual")
-public class AnnualController extends SpringControllerSupport{
+@RequestMapping(value = "/learner")
+public class LearnerController extends SpringControllerSupport{
     @Autowired
-    private AnnualService annualService;
+    private LearnerService learnerService;
 
-    @SecPrivilege(title="年度管理",code="enr.annual")
+    @SecPrivilege(title="学员管理",code="enr.learner")
     @RequestMapping("/index")
     public String index(Model model){
         return getViewNamedPath("index");
@@ -59,13 +59,13 @@ public class AnnualController extends SpringControllerSupport{
             @QueryParameter("query") QueryParam query,
             @ModelAttribute("page") Pagination page){
 
-        page = annualService.getPage(query, page);
+        page = learnerService.getPage(query, page);
 
         return getViewNamedPath("list");
     }
     @SecCreate
     @RequestMapping("/input")
-    public String create(@ModelAttribute Annual annual, Model model){
+    public String create(@ModelAttribute Learner learner, Model model){
 
         return getViewNamedPath("input");
     }
@@ -73,17 +73,17 @@ public class AnnualController extends SpringControllerSupport{
     @RequestMapping("/input/{id}")
     public String edit(@PathVariable("id") Long id, Model model){
 
-                Annual annual = this.annualService.getById(id);
-                model.addAttribute(annual);
+                Learner learner = this.learnerService.getById(id);
+                model.addAttribute(learner);
 
             return getViewNamedPath("input");
     }
     @RequestMapping("/save")
-    public @ResponseBody MessageJson save(@ModelAttribute Annual annual){
+    public @ResponseBody MessageJson save(@ModelAttribute Learner learner){
             LoginInfo loginInfo = super.getLoginInfo();
             //校验
-            validateSave(annual);
-            this.annualService.saveOrUpdatePro(annual,loginInfo);
+            validateSave(learner);
+            this.learnerService.saveOrUpdatePro(learner,loginInfo);
 
         return MessageJson.information("保存成功");
     }
@@ -91,29 +91,29 @@ public class AnnualController extends SpringControllerSupport{
     /**
     * 数据校验
     **/
-    private void validateSave(Annual annual){
+    private void validateSave(Learner learner){
 
             //必填项校验
-            if(annual.getId() == null){
-                throw new ValidationException("请选择年度");
+            if(learner.getId() == null){
+                throw new ValidationException("请选择学员");
             }
             QueryParam query = new DefaultQueryParam();
-            if(annual.getId()!=null && annual.getId() > 0){
-            query.addQuery("id!ne@l", annual.getId());
+            if(learner.getId()!=null && learner.getId() > 0){
+            query.addQuery("id!ne@l", learner.getId());
             }
-            query.addQuery("title!eq@s", annual.getTitle());
-            List<Annual> annualList = this.annualService.findAll(query);
-                if(CollectionUtils.isNotEmpty(annualList)){
-                throw new ValidationException("年度名称已经存在");
+            query.addQuery("title!eq@s", learner.getTitle());
+            List<Learner> learnerList = this.learnerService.findAll(query);
+                if(CollectionUtils.isNotEmpty(learnerList)){
+                throw new ValidationException("学员名称已经存在");
             }
 
     }
     @SecDelete
     @RequestMapping("/delete/{id}")
     public @ResponseBody MessageJson delete(@PathVariable("id") Long id){
-        if(annualService.isDeletable(id)){
-            this.annualService.delete(id);
-            BfsuolLogger.data("年度删除，","年度id:"+id);
+        if(learnerService.isDeletable(id)){
+            this.learnerService.delete(id);
+            BfsuolLogger.data("学员删除，","学员id:"+id);
         }
         return MessageJson.information("成功删除1条");
     }
@@ -125,8 +125,8 @@ public class AnnualController extends SpringControllerSupport{
             return MessageJson.error("没有删除");
         }
         for(Long id : ids){
-            if(annualService.isDeletable(id)){
-                annualService.delete(id);
+            if(learnerService.isDeletable(id)){
+                learnerService.delete(id);
             }
         }
         StringBuffer sb = new StringBuffer();
@@ -137,7 +137,7 @@ public class AnnualController extends SpringControllerSupport{
                 sb.append(","+ids[i]);
             }
         }
-        BfsuolLogger.data("批量删除年度，","年度ids:"+sb.toString()+"，数量:"+ids.length);
+        BfsuolLogger.data("批量删除学员，","学员ids:"+sb.toString()+"，数量:"+ids.length);
         return MessageJson.information("成功删除"+ids.length+"条");
     }
 }

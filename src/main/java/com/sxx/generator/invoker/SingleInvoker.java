@@ -1,5 +1,6 @@
 package com.sxx.generator.invoker;
 
+import com.sxx.generator.entity.ColumnInfo;
 import com.sxx.generator.invoker.base.BaseBuilder;
 import com.sxx.generator.invoker.base.BaseInvoker;
 import com.sxx.generator.utils.GeneratorUtil;
@@ -26,9 +27,11 @@ public class SingleInvoker extends BaseInvoker {
         taskQueue.add(new ServiceTask(className));
         taskQueue.add(new ServiceImplTask(className));
         taskQueue.add(new ControllerTask(className));
-        taskQueue.add(new EntityTask(className, tableInfos));
+        //taskQueue.add(new EntityTask(className, tableInfos));
+        taskQueue.add(new EntityTask(className,parentClassName,foreignKey,tableInfos));
         taskQueue.add(new MapperTask(className, tableName, tableInfos));
-        taskQueue.add(new HibernateTask(className, tableName, tableInfos));
+        //taskQueue.add(new HibernateTask(className, tableName, tableInfos));
+        taskQueue.add(new HibernateTask(tableName,className,parentTableName,parentClassName,foreignKey,tableInfos,parentTableInfos));
         taskQueue.add(new IndexTask(className, tableInfos));
         taskQueue.add(new InputTask(className, tableInfos));
         taskQueue.add(new ListTask(className, tableInfos));

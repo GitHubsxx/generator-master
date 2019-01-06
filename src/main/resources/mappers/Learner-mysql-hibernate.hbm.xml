@@ -1,0 +1,290 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-lazy="true">
+    <!--学员 -->
+    <class name="com.bwol.adultEdu.enroll.entity.Learner" table="T_Learner">
+    		<id name="id" type="java.lang.Long">
+			<column name="LEARNER_ID" precision="16" scale="0"/>
+			<generator class="native" />
+		</id>
+
+		<property generated="never" lazy="false" name="baseUserId" type="java.lang.Long">
+			<column length="20" name="BASE_USER_ID" />
+		</property>
+
+		<property generated="never" lazy="false" name="annual" type="java.lang.Long">
+			<column length="20" name="ANNUAL" />
+		</property>
+
+		<property generated="never" lazy="false" name="studyCenter" type="java.lang.Long">
+			<column length="20" name="STUDY_CENTER" />
+		</property>
+
+		<property generated="never" lazy="false" name="specialty" type="java.lang.Long">
+			<column length="20" name="SPECIALTY" />
+		</property>
+
+		<many-to-one name="level"  class="com.bwol.adultEdu.enroll.entity.Level"  fetch="select">
+			<column name="LEVEL" precision="16" scale="0" />
+		</many-to-one>
+		<property generated="never" lazy="false" name="center" type="java.lang.String">
+			<column length="255" name="CENTER" />
+		</property>
+
+		<property generated="never" lazy="false" name="documentType" type="java.lang.String">
+			<column length="255" name="DOCUMENT_TYPE" />
+		</property>
+
+		<property generated="never" lazy="false" name="documentTypeCode" type="java.lang.String">
+			<column length="255" name="DOCUMENT_TYPE_CODE" />
+		</property>
+
+		<property generated="never" lazy="false" name="idnumber" type="java.lang.String">
+			<column length="255" name="IDNUMBER" />
+		</property>
+
+		<property generated="never" lazy="false" name="name" type="java.lang.String">
+			<column length="255" name="NAME" />
+		</property>
+
+		<property generated="never" lazy="false" name="sex" type="java.lang.String">
+			<column length="255" name="SEX" />
+		</property>
+
+		<property generated="never" lazy="false" name="sexCode" type="java.lang.String">
+			<column length="255" name="SEX_CODE" />
+		</property>
+
+		<property generated="never" lazy="false" name="national" type="java.lang.String">
+			<column length="255" name="NATIONAL" />
+		</property>
+
+		<property generated="never" lazy="false" name="nationalCode" type="java.lang.String">
+			<column length="255" name="NATIONAL_CODE" />
+		</property>
+
+		<property generated="never" lazy="false" name="dateOfBirth" type="java.lang.String">
+			<column length="255" name="DATE_OF_BIRTH" />
+		</property>
+
+		<property generated="never" lazy="false" name="birthPlace" type="java.lang.String">
+			<column length="255" name="BIRTH_PLACE" />
+		</property>
+
+		<property generated="never" lazy="false" name="politicsStatus" type="java.lang.String">
+			<column length="255" name="POLITICS_STATUS" />
+		</property>
+
+		<property generated="never" lazy="false" name="politicsStatusCode" type="java.lang.String">
+			<column length="255" name="POLITICS_STATUS_CODE" />
+		</property>
+
+		<property generated="never" lazy="false" name="educationalLevel" type="java.lang.String">
+			<column length="255" name="EDUCATIONAL_LEVEL" />
+		</property>
+
+		<property generated="never" lazy="false" name="educationalLevelShort" type="java.lang.String">
+			<column length="255" name="EDUCATIONAL_LEVEL_SHORT" />
+		</property>
+
+		<property generated="never" lazy="false" name="educationalLevelCode" type="java.lang.String">
+			<column length="255" name="EDUCATIONAL_LEVEL_CODE" />
+		</property>
+
+		<property generated="never" lazy="false" name="professionalCategory" type="java.lang.String">
+			<column length="255" name="PROFESSIONAL_CATEGORY" />
+		</property>
+
+		<property generated="never" lazy="false" name="professionalCategoryCode" type="java.lang.String">
+			<column length="255" name="PROFESSIONAL_CATEGORY_CODE" />
+		</property>
+
+		<property generated="never" lazy="false" name="postalCode" type="java.lang.String">
+			<column length="255" name="POSTAL_CODE" />
+		</property>
+
+		<property generated="never" lazy="false" name="postalAddress" type="java.lang.String">
+			<column length="255" name="POSTAL_ADDRESS" />
+		</property>
+
+		<property generated="never" lazy="false" name="mobilePhoneNumber" type="java.lang.String">
+			<column length="255" name="MOBILE_PHONE_NUMBER" />
+		</property>
+
+		<property generated="never" lazy="false" name="phoneNumber" type="java.lang.String">
+			<column length="255" name="PHONE_NUMBER" />
+		</property>
+
+		<property generated="never" lazy="false" name="email" type="java.lang.String">
+			<column length="255" name="EMAIL" />
+		</property>
+
+		<property generated="never" lazy="false" name="originalHighestDegreeSchool" type="java.lang.String">
+			<column length="255" name="ORIGINAL_HIGHEST_DEGREE_SCHOOL" />
+		</property>
+
+		<property generated="never" lazy="false" name="originalMajorName" type="java.lang.String">
+			<column length="255" name="ORIGINAL_MAJOR_NAME" />
+		</property>
+
+		<property generated="never" lazy="false" name="certificateNumber" type="java.lang.String">
+			<column length="255" name="CERTIFICATE_NUMBER" />
+		</property>
+
+		<property generated="never" lazy="false" name="graduationDateOfOriginalMajor" type="java.lang.String">
+			<column length="255" name="GRADUATION_DATE_OF_ORIGINAL_MAJOR" />
+		</property>
+
+		<property generated="never" lazy="false" name="careType" type="java.lang.String">
+			<column length="255" name="CARE_TYPE" />
+		</property>
+
+		<property generated="never" lazy="false" name="careTypeCode" type="java.lang.String">
+			<column length="255" name="CARE_TYPE_CODE" />
+		</property>
+
+		<property generated="never" lazy="false" name="exemptionReasons" type="java.lang.String">
+			<column length="255" name="EXEMPTION_REASONS" />
+		</property>
+
+		<property generated="never" lazy="false" name="major" type="java.lang.String">
+			<column length="255" name="MAJOR" />
+		</property>
+
+		<property generated="never" lazy="false" name="majorCode" type="java.lang.String">
+			<column length="255" name="MAJOR_CODE" />
+		</property>
+
+		<property generated="never" lazy="false" name="candidateVolunteerCode" type="java.lang.String">
+			<column length="255" name="CANDIDATE_VOLUNTEER_CODE" />
+		</property>
+
+		<property generated="never" lazy="false" name="adjustWay" type="java.lang.String">
+			<column length="255" name="ADJUST_WAY" />
+		</property>
+
+		<property generated="never" lazy="false" name="adjustCode" type="java.lang.String">
+			<column length="255" name="ADJUST_CODE" />
+		</property>
+
+		<property generated="never" lazy="false" name="examForeignLanguage" type="java.lang.String">
+			<column length="255" name="EXAM_FOREIGN_LANGUAGE" />
+		</property>
+
+		<property generated="never" lazy="false" name="foreignLanguages" type="java.lang.String">
+			<column length="255" name="FOREIGN_LANGUAGES" />
+		</property>
+
+		<property generated="never" lazy="false" name="sports" type="java.lang.String">
+			<column length="255" name="SPORTS" />
+		</property>
+
+		<property generated="never" lazy="false" name="sportsLevel" type="java.lang.String">
+			<column length="255" name="SPORTS_LEVEL" />
+		</property>
+
+		<property generated="never" lazy="false" name="examinationLevel" type="java.lang.String">
+			<column length="255" name="EXAMINATION_LEVEL" />
+		</property>
+
+		<property generated="never" lazy="false" name="workUnits" type="java.lang.String">
+			<column length="255" name="WORK_UNITS" />
+		</property>
+
+		<property generated="never" lazy="false" name="courseOne" type="java.lang.String">
+			<column length="255" name="COURSE_ONE" />
+		</property>
+
+		<property generated="never" lazy="false" name="courseTwo" type="java.lang.String">
+			<column length="255" name="COURSE_TWO" />
+		</property>
+
+		<property generated="never" lazy="false" name="courseThree" type="java.lang.String">
+			<column length="255" name="COURSE_THREE" />
+		</property>
+
+		<property generated="never" lazy="false" name="courseFour" type="java.lang.String">
+			<column length="255" name="COURSE_FOUR" />
+		</property>
+
+		<property generated="never" lazy="false" name="courseFive" type="java.lang.String">
+			<column length="255" name="COURSE_FIVE" />
+		</property>
+
+		<property generated="never" lazy="false" name="courseSix" type="java.lang.String">
+			<column length="255" name="COURSE_SIX" />
+		</property>
+
+		<property generated="never" lazy="false" name="bonusPoints" type="java.lang.Double">
+			<column length="22" name="BONUS_POINTS" />
+		</property>
+
+		<property generated="never" lazy="false" name="totalScore" type="java.lang.Double">
+			<column length="22" name="TOTAL_SCORE" />
+		</property>
+
+		<property generated="never" lazy="false" name="examinationCardnumber" type="java.lang.String">
+			<column length="255" name="EXAMINATION_CARDNUMBER" />
+		</property>
+
+		<property generated="never" lazy="false" name="candidateNumberOfBeijing" type="java.lang.String">
+			<column length="255" name="CANDIDATE_NUMBER_OF_BEIJING" />
+		</property>
+
+		<property generated="never" lazy="false" name="candidateNumberOfMinistry" type="java.lang.String">
+			<column length="255" name="CANDIDATE_NUMBER_OF_MINISTRY" />
+		</property>
+
+		<property generated="never" lazy="false" name="dateOfApplication" type="java.lang.String">
+			<column length="255" name="DATE_OF_APPLICATION" />
+		</property>
+
+		<property generated="never" lazy="false" name="studentCode" type="java.lang.String">
+			<column length="255" name="STUDENT_CODE" />
+		</property>
+
+		<property generated="never" lazy="false" name="recruitStatus" type="java.lang.String">
+			<column length="255" name="RECRUIT_STATUS" />
+		</property>
+
+		<property generated="never" lazy="false" name="professionalExtraExam" type="java.lang.String">
+			<column length="255" name="PROFESSIONAL_EXTRA_EXAM" />
+		</property>
+
+		<property generated="never" lazy="false" name="admissionResults" type="java.lang.String">
+			<column length="255" name="ADMISSION_RESULTS" />
+		</property>
+
+		<property generated="never" lazy="false" name="userState" type="java.lang.String">
+			<column length="255" name="USER_STATE" />
+		</property>
+
+		<property generated="never" lazy="false" name="createUserId" type="java.lang.Long">
+			<column length="20" name="CREATE_USER_ID" />
+		</property>
+
+		<property generated="never" lazy="false" name="createUserName" type="java.lang.String">
+			<column length="200" name="CREATE_USER_NAME" />
+		</property>
+
+		<property generated="never" lazy="false" name="createTime" type="java.util.Date">
+			<column length="19" name="CREATE_TIME" />
+		</property>
+
+		<property generated="never" lazy="false" name="updateUserId" type="java.lang.Long">
+			<column length="20" name="UPDATE_USER_ID" />
+		</property>
+
+		<property generated="never" lazy="false" name="updateUserName" type="java.lang.String">
+			<column length="200" name="UPDATE_USER_NAME" />
+		</property>
+
+		<property generated="never" lazy="false" name="updateTime" type="java.util.Date">
+			<column length="19" name="UPDATE_TIME" />
+		</property>
+
+
+    </class>
+
+</hibernate-mapping>

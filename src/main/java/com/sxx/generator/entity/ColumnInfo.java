@@ -13,16 +13,18 @@ public class ColumnInfo implements Serializable {
     private int type; // 类型代码
     private String propertyName; // 属性名
     private boolean isPrimaryKey; // 是否主键
+    private int precision;//列的length
 
     public ColumnInfo() {
 
     }
 
-    public ColumnInfo(String columnName, int type, boolean isPrimaryKey) {
+    public ColumnInfo(String columnName, int type, boolean isPrimaryKey, int precision) {
         this.columnName = columnName;
         this.type = type;
         this.propertyName = StringUtil.columnName2PropertyName(columnName);
         this.isPrimaryKey = isPrimaryKey;
+        this.precision = precision;
     }
 
     public String getColumnName() {
@@ -55,5 +57,13 @@ public class ColumnInfo implements Serializable {
 
     public void setPrimaryKey(boolean primaryKey) {
         isPrimaryKey = primaryKey;
+    }
+
+    public int getPrecision() {
+        return precision;
+    }
+
+    public void setPrecision(int precision) {
+        this.precision = precision;
     }
 }
