@@ -12,8 +12,8 @@ import com.sxx.generator.invoker.base.Invoker;
 public class Main {
 
     public static void main(String[] args) {
-        //single();
-        one2many();
+        single();
+        //one2many();
     }
 
     public static void many2many() {
@@ -42,8 +42,8 @@ public class Main {
 
     public static void single() {
         Invoker invoker = new SingleInvoker.Builder()
-                .setTableName("t_bas_annual")
-                .setClassName("Annual")
+                .setTableName("t_dea_class_schedule_classes")
+                .setClassName("TeacherTask")
                 .build();
         invoker.execute();
     }

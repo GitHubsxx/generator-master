@@ -31,6 +31,7 @@ public class ConfigUtil {
         configuration.setPath(new Configuration.Path("controller", "service", "dao", "entity", "mappers","ftl"));
         configuration.setDb(new Configuration.Db("", "", ""));
         configuration.setTitle("");
+        configuration.setParentPath("");
         return configuration;
     }
 

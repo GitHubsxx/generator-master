@@ -3,7 +3,7 @@ package com.sxx.generator.entity;
 import java.io.Serializable;
 
 /**
- * Author GreedyStar
+ * Author sxx
  * Date   2018/9/7
  */
 public class Configuration implements Serializable {
@@ -12,6 +12,15 @@ public class Configuration implements Serializable {
     private Path path;
     private Db db;
     private String title;
+    private String parentPath;
+
+    public String getParentPath() {
+        return parentPath;
+    }
+
+    public void setParentPath(String parentPath) {
+        this.parentPath = parentPath;
+    }
 
     public String getTitle() {
         return title;

@@ -44,6 +44,7 @@ public class ListTask extends BaseTask {
         // 生成Entity填充数据
         System.out.println("Generating " + className + ".java");
         Map<String, String> entityData = new HashMap<>();
+        entityData.put("ParentPath",ConfigUtil.getConfiguration().getParentPath());
         entityData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
         entityData.put("EntityPackageName", ConfigUtil.getConfiguration().getPath().getEntity());
         entityData.put("Author", ConfigUtil.getConfiguration().getAuthor());

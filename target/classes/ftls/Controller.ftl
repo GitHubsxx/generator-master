@@ -43,12 +43,12 @@ import java.util.List;
  * Date  ${Date}
  */
 @Controller
-@RequestMapping(value = "/${EntityName}")
+@RequestMapping(value = "/${ParentPath}/${EntityName}")
 public class ${ClassName}Controller extends SpringControllerSupport{
     @Autowired
     private ${ClassName}Service ${EntityName}Service;
 
-    @SecPrivilege(title="${Title}管理",code="enr.${EntityName}")
+    @SecPrivilege(title="${Title}管理")
     @RequestMapping("/index")
     public String index(Model model){
         return getViewNamedPath("index");
@@ -63,13 +63,13 @@ public class ${ClassName}Controller extends SpringControllerSupport{
 
         return getViewNamedPath("list");
     }
-    @SecCreate
+    @SecCreate(title="添加${Title}")
     @RequestMapping("/input")
     public String create(@ModelAttribute ${ClassName} ${EntityName}, Model model){
 
         return getViewNamedPath("input");
     }
-    @SecEdit
+    @SecEdit(title="修改${Title}")
     @RequestMapping("/input/{id}")
     public String edit(@PathVariable("id") Long id, Model model){
 

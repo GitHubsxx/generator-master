@@ -1,10 +1,11 @@
 db:
-  url: jdbc:mysql://localhost:3306/adult_edu?useUnicode=true&characterEncoding=UTF-8
+  url: jdbc:mysql://192.168.54.187:3306/adult_edu?useUnicode=true&characterEncoding=UTF-8
   username: adult_edu
   password: adult_edu
 author: sxx
-packageName: com.bwol.adultEdu.enroll
-title: 学员
+packageName: com.bwol.adultEdu.tutorPlat
+parentPath: teacher
+title: 代办事项
 path:
   controller: controller
   service: service

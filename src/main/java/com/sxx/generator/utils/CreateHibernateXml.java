@@ -1,3 +1,4 @@
+/*
 package com.sxx.generator.utils;
 import com.bwol.adultEdu.enroll.entity.Test;
 
@@ -7,13 +8,15 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+*/
 /**
  * 根据实体类生成Hibernate映射文件
  * 此类只适用于生成简单的隐射文件，如需根据自己需求生成，则可修改convert方法中的相关JAVA代码
  * @time 2015-03-30
  * @author sxx
  *
- */
+ *//*
+
 public class CreateHibernateXml {
 
     public static void main(String[] args){
@@ -28,7 +31,8 @@ public class CreateHibernateXml {
         }
     }
 
-    /**
+    */
+/**
      *
      * @param cls 实体类Class
      * @param file 文件生成路径
@@ -37,7 +41,8 @@ public class CreateHibernateXml {
      * @param comments 映射文件注释
      * @return
      * @throws IOException
-     */
+     *//*
+
     @SuppressWarnings("unchecked")
     public static boolean convert(Class cls, File file, String id, boolean uuid,String comments) throws IOException {
 
@@ -138,3 +143,4 @@ public class CreateHibernateXml {
     }
 }
 
+*/

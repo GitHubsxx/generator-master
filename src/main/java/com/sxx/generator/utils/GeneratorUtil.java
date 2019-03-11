@@ -531,12 +531,14 @@ public class GeneratorUtil {
                 "-->\n");
         sb.append("<#include \"/templates/ace/ace-inc.ftl\">\n\n").append("<@html>\n\n").append("<@head>\n\n")
                 .append("</@head>\n\n").append("<@body>\n\n").append("<@nav '"+entityData.get("Title")+"'/>\n\n")
-                .append("<@content url=\"${base}/base/"+entityData.get("EntityName")+"/list\" >\n\n")
-                .append("\t\t<@query queryUrl=\"${base}/base/"+entityData.get("EntityName")+"/list\">\n\n")
+                .append("<@content url=\"${base}/"+entityData.get("ParentPath")+"/"+entityData.get("EntityName")+"/list\" >\n\n")
+                .append("\t\t<@query queryUrl=\"${base}/"+entityData.get("ParentPath")+"/"+entityData.get("EntityName")+"/list\">\n\n")
                 .append("\t\t\t<@querygroup  title='"+entityData.get("Title")+"名称'><input type='text' name='query.title!lk@s'  class=\"form-control\" placeholder=\"请输入"+entityData.get("Title")+"名称\"></@querygroup>\n\n")
                 .append("\t\t\t<@querygroup  title='状态'><@select list=BfsuolConstants.GLOBAL_YESNO name=\"query.isEnroll!eq@i\" listKey='' listValue='' id=\"statusSelect\" multi=false search=false/></@querygroup>\n\n")
                 .append("\t\t</@query>\n")
-                .append("\t\t<@button icon=\"pencil\" type=\"primary\" size=\"sm\" onclick=\"bfsu.add('${base}/base/"+entityData.get("EntityName")+"/input','添加"+entityData.get("Title")+"');\">添加"+entityData.get("Title")+"</@button>\n")
+                .append("\t\t<@sec pcode=\""+entityData.get("ParentPath")+"."+entityData.get("EntityName")+"\" fcode=\"create\">\n")
+                .append("\t\t\t<@button icon=\"pencil\" type=\"primary\" size=\"sm\" onclick=\"bfsu.add('${base}/"+entityData.get("ParentPath")+"/"+entityData.get("EntityName")+"/input','添加"+entityData.get("Title")+"');\">添加"+entityData.get("Title")+"</@button>\n")
+                .append("\t\t</@sec>\n")
                 .append("</@content>\n\n").append("</@body>\n\n").append("</@html>");
 
         return sb.toString();
@@ -561,14 +563,22 @@ public class GeneratorUtil {
                 "    *  2019-01-13 bfsu Create File\n" +
                 "**************************************************/" +
                 "-->\n");
-        sb.append("<#include \"/templates/ace/ace-inc.ftl\">\n\n").append("<@input url=\"${base}/base/"+entityData.get("EntityName")+"/save\">\n")
+        sb.append("<#include \"/templates/ace/ace-inc.ftl\">\n\n")
+                .append("<@input url=\"${base}/"+entityData.get("ParentPath")+"/"+entityData.get("EntityName")+"/save\">\n")
                 .append("\t\t<input type=\"hidden\" name=\"id\" value=\"${"+entityData.get("EntityName")+".id}\"/>\n")
                 .append("\t\t<@formgroup title='"+entityData.get("Title")+"名称'>\n")
                 .append("\t\t\t<input type=\"text\" name=\"title\" value=\"${"+entityData.get("EntityName")+".title}\" placeholder=\"例：2018\"  check-type=\"required\" maxlength=\"100\">\n")
                 .append("\t\t</@formgroup>\n\n").append("\t\t<@formgroup title='是否有效'>\n")
                 .append("\t\t\t<@swichButton name='isEnroll' title='是否' val=\"${"+entityData.get("EntityName")+".status}\" onVal=BfsuolConstants.GLOBAL_YESNO_YES offVal=BfsuolConstants.GLOBAL_YESNO_NO></@swichButton>\n")
                 .append("\t\t\t<b><font style=\"color:red;\">说明："+entityData.get("Title")+"只能有一个为 “是”</font></b>\n")
-                .append("\t\t</@formgroup>\n").append("</@input>");
+                .append("\t\t</@formgroup>\n\n")
+                .append("\t\t<@formgroup title=\"层次\">\n" +
+                        "\t\t\t<@select name=\"levelIds\" list=levelList value=\"${"+entityData.get("EntityName")+"?if_exists.levelIds}\" listKey=\"title\" listValue=\"id\" id=\"levelIdInput\" headerKey='' headerValue='' emptyOption=false multi=true />\n" +
+                        "\t\t</@formgroup>\n\n")
+                .append("\t\t<@formgroup title=\"专业\">\n" +
+                        "\t\t\t<@ajaxselect id=\"specialtyIds\" name=\"specialtyIds\" value=\"${"+entityData.get("EntityName")+"?if_exists.specialtyIds}\" pid=\"levelIdInput\"  url=\"${base}/base/baseObjectJson/getInputSpecialtyJSON/[levelIdInput]\" multi=true />\n" +
+                        "\t\t</@formgroup>\n")
+                .append("</@input>");
         return sb.toString();
     }
     /**
@@ -591,12 +601,17 @@ public class GeneratorUtil {
                 "    *  2019-01-13 bfsu Create File\n" +
                 "**************************************************/" +
                 "-->\n");
-        sb.append("<#include \"/templates/ace/ace-inc.ftl\">\n\n").append("<@list>\n")
-                .append("\t\t<thead>\n\n").append("\t\t<tr>\n").append("\t\t\t<th><input type=\"checkbox\" class=\"bscheckall\"></th>\n")
+        sb.append("<#include \"/templates/ace/ace-inc.ftl\">\n\n")
+                .append("<@list>\n")
+                .append("\t<thead>\n")
+                .append("\t\t<tr>\n")
+                .append("\t\t\t<th><input type=\"checkbox\" class=\"bscheckall\"></th>\n")
                 .append("\t\t\t<th>"+entityData.get("Title")+"名称</th>\n").append("\t\t\t<th>是否有效</th>\n")
                 .append("\t\t\t<th>创建人姓名</th>\n").append("\t\t\t<th>创建时间</th>\n").append("\t\t\t<th>更新人姓名</th>\n")
-                .append("\t\t\t<th>更新时间</th>\n").append("\t\t\t<th>操作</th>\n").append("\t\t</tr>\n\n").append("\t\t</thead>\n\n")
-                .append("\t\t<tbody>\n").append("\t\t\t\t<#list page.items?if_exists as item>\n").append("\t\t\t\t<tr>\n")
+                .append("\t\t\t<th>更新时间</th>\n").append("\t\t\t<th>操作</th>\n").append("\t\t</tr>\n").append("\t\t</thead>\n")
+                .append("\t\t<tbody>\n")
+                .append("\t\t\t<#list page.items?if_exists as item>\n")
+                .append("\t\t\t\t<tr>\n")
                 .append("\t\t\t\t\t<td><input type=\"checkbox\" class=\"bscheck\" data=\"id:${item.id}\"></td>\n")
                 .append("\t\t\t\t\t<td>\n").append("\t\t\t\t\t\t${item.title}\n").append("\t\t\t\t\t</td>\n")
                 .append("\t\t\t\t\t<td>\n").append("\t\t\t\t\t\t${item.status}\n").append("\t\t\t\t\t</td>\n")
@@ -605,10 +620,14 @@ public class GeneratorUtil {
                 .append("\t\t\t\t\t<td>\n").append("\t\t\t\t\t\t${item.updateUserName}\n").append("\t\t\t\t\t</td>\n")
                 .append("\t\t\t\t\t<td>\n").append("\t\t\t\t\t\t${item.updateTime}\n").append("\t\t\t\t\t</td>\n")
                 .append("\t\t\t\t\t<td>\n")
-                .append("\t\t\t\t\t\t<@button icon=\"pencil\" type=\"primary\" size=\"sm\" onclick=\"bfsu.add('${base}/base/"+entityData.get("EntityName")+"/input/${item.id}','修改"+entityData.get("Title")+"');\">修改"+entityData.get("Title")+"</@button>\n")
-                .append("\t\t\t\t\t\t<@button icon=\"remove\" \t type=\"primary\" onclick=\"bfsu.del('${base}/base/"+entityData.get("EntityName")+"/delete/${item.id}','从列表中删除？')\">删除</@button>\n")
+                .append("\t\t\t\t\t\t<@sec pcode=\""+entityData.get("ParentPath")+"."+entityData.get("EntityName")+"\" fcode=\"edit\">\n")
+                .append("\t\t\t\t\t\t\t<@button icon=\"pencil\" type=\"primary\" size=\"sm\" onclick=\"bfsu.add('${base}/base/"+entityData.get("EntityName")+"/input/${item.id}','修改"+entityData.get("Title")+"');\">修改"+entityData.get("Title")+"</@button>\n")
+                .append("\t\t\t\t\t\t</@sec>\n")
+                .append("\t\t\t\t\t\t<@sec pcode=\""+entityData.get("ParentPath")+"."+entityData.get("EntityName")+"\" fcode=\"delete\">\n")
+                .append("\t\t\t\t\t\t\t<@button icon=\"remove\" \t type=\"primary\" onclick=\"bfsu.del('${base}/base/"+entityData.get("EntityName")+"/delete/${item.id}','从列表中删除？')\">删除</@button>\n")
+                .append("\t\t\t\t\t\t</@sec>\n")
                 .append("\t\t\t\t\t</td>\n")
-                .append("\t\t\t\t</tr>\n").append("\t\t\t\t</#list>\n").append("\t\t\t</tbody>\n").append("</@list>\n");
+                .append("\t\t\t\t</tr>\n").append("\t\t\t</#list>\n").append("\t\t</tbody>\n").append("</@list>\n");
 
         return sb.toString();
     }

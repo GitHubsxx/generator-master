@@ -28,6 +28,7 @@ public class ControllerTask extends BaseTask {
         // 生成Controller填充数据
         System.out.println("Generating " + className + "Controller.java");
         Map<String, String> controllerData = new HashMap<>();
+        controllerData.put("ParentPath",ConfigUtil.getConfiguration().getParentPath());
         controllerData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
         controllerData.put("ControllerPackageName", ConfigUtil.getConfiguration().getPath().getController());
         controllerData.put("ServicePackageName", ConfigUtil.getConfiguration().getPath().getService());
