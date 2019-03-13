@@ -3,9 +3,9 @@ db:
   username: adult_edu
   password: adult_edu
 author: sxx
-packageName: com.bwol.adultEdu.tutorPlat
-parentPath: teacher
-title: 代办事项
+packageName: com.bwol.adultEdu.base
+parentPath: base
+title: 学校
 path:
   controller: controller
   service: service

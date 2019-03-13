@@ -3,7 +3,7 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping default-lazy="true">
     <!--${Title} -->
-    <class name="${BasePackageName}${EntityPackageName}.${ClassName}" table="T_${ClassName}">
+    <class name="${BasePackageName}${EntityPackageName}.${ClassName}" table="${TableName}">
     ${ResultMap}
     </class>
 

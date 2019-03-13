@@ -3,10 +3,14 @@ package com.sxx.generator.db;
 
 import com.sxx.generator.entity.ColumnInfo;
 import com.sxx.generator.utils.ConfigUtil;
+import org.apache.commons.collections.CollectionUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Author sxx
@@ -15,7 +19,9 @@ import java.util.List;
 public class ConnectionUtil {
     private Connection connection;
     private Statement statement;
+    private Statement statement_2;
     private ResultSet resultSet;
+    private ResultSet resultSet_2;
 
     /**
      * 初始化数据库连接
@@ -52,9 +58,18 @@ public class ConnectionUtil {
         }
         List<ColumnInfo> columnInfos = new ArrayList<>();
         statement = connection.createStatement();
+        statement_2 = connection.createStatement();
         String sql = "SELECT * FROM " + tableName + " WHERE 1 != 1";
+        String sql_2 = "show full fields from "+tableName;
         resultSet = statement.executeQuery(sql);
+        resultSet_2 = statement_2.executeQuery(sql_2);
         ResultSetMetaData metaData = resultSet.getMetaData();
+        ConcurrentHashMap<String,String> map = new ConcurrentHashMap<>();
+        while (resultSet_2.next()){
+            String columnName = resultSet_2.getString(1);
+            String comment = resultSet_2.getString("comment");
+            map.put(columnName,comment);
+        }
         for (int i = 1; i <= metaData.getColumnCount(); i++) {
             ColumnInfo info;
             if (metaData.getColumnName(i).equals(primaryKey)) {
@@ -66,6 +81,21 @@ public class ConnectionUtil {
         }
         statement.close();
         resultSet.close();
+        if(map !=null && map.size()>0 && CollectionUtils.isNotEmpty(columnInfos)){
+
+            Iterator<ColumnInfo> var = columnInfos.iterator();
+            while (var.hasNext()){
+                ColumnInfo info = var.next();
+                Iterator<Map.Entry<String, String>> var2 = map.entrySet().iterator();
+                while (var2.hasNext()){
+                    Map.Entry<String, String> var3 = var2.next();
+                    if(var3.getKey() !=null && var3.getKey().equals(info.getColumnName())){
+                        info.setComment(var3.getValue());
+                        break;
+                    }
+                }
+            }
+        }
         return columnInfos;
     }
 

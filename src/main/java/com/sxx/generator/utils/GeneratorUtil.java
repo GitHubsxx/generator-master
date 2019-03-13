@@ -3,6 +3,8 @@ package com.sxx.generator.utils;
 import com.sxx.generator.entity.ColumnInfo;
 
 import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +15,17 @@ import java.util.Map;
  */
 public class GeneratorUtil {
 
-
+    /**
+     * 时间
+     *
+     * @param infos
+     * @return
+     */
+    public static String createTime(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        return  sdf.format(date);
+    }
     /**
      * 生成实体类属性字段（基本数据类型，用于单表关系）
      *
@@ -28,9 +40,11 @@ public class GeneratorUtil {
             }
             //主键就id
             if(infos.get(i).isPrimaryKey())
-                sb.append("private ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append("id").append(";\n");
+                sb.append("private ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append("id").append(";")
+                        .append("//").append(infos.get(i).getComment()).append("\n");
            else
-                sb.append("private ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(";\n");
+                sb.append("private ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(";")
+                        .append("//").append(infos.get(i).getComment()).append("\n");
         }
         return sb.toString();
     }
@@ -91,14 +105,41 @@ public class GeneratorUtil {
             }
             //主键id
             if (infos.get(i).isPrimaryKey()) {
-                sb.append("public void setId").append(" (").append("Long").append(" ").append("id").append(") {this.").append("id").append(" = ").append("id").append(";} \n");
-                sb.append("    ").append("public ").append("Long").append(" getId").append("(){ return ").append("id").append(";} \n");
+                sb.append(" /**\n" +
+                        "     * @param 主键\n" +
+                        "     */");
+                sb.append("\n");
+                sb.append("    ");
+                sb.append("public void setId").append(" (").append("Long").append(" ").append("id").append(") {this.").append("id").append(" = ").append("id").append(";} \n\n");
+                sb.append("    ")
+                        .append(" /**\n" +
+                                "     * @return 主键\n" +
+                                "     */");
+                sb.append("\n");
+                sb.append("    ");
+                sb.append("public ").append("Long").append(" getId").append("(){ return ").append("id").append(";} \n\n");
             } else{
-                sb.append("public void set").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append(" (").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(") {this.").append(infos.get(i).getPropertyName()).append(" = ").append(infos.get(i).getPropertyName()).append(";} \n");
+                sb.append(" /**\n" +
+                        "     * 设置"+infos.get(i).getComment()+"\n" +
+                        "     * @param ("+infos.get(i).getPropertyName()+") ("+infos.get(i).getComment()+")\n" +
+                        "     */");
+                sb.append("\n");
+                sb.append("    ");
+                sb.append("public void set").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append(" (").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(") {this.").append(infos.get(i).getPropertyName()).append(" = ").append(infos.get(i).getPropertyName()).append(";} \n\n");
             if (infos.get(i).getType() == Types.BIT || infos.get(i).getType() == Types.TINYINT) {
-                sb.append("    ").append("public ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" is").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n");
+            sb.append(" \t/**\n" +
+                        "     * 返回"+infos.get(i).getComment()+"\n" +
+                        "     * @return "+infos.get(i).getComment()+"\n" +
+                        "     */");
+                sb.append("\n");
+                sb.append("    ").append("public ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" is").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n\n");
             } else {
-                sb.append("    ").append("public ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" get").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n");
+            sb.append("\t/**\n" +
+                        "     * 返回"+infos.get(i).getComment()+"\n" +
+                        "     * @return "+infos.get(i).getComment()+"\n" +
+                        "     */");
+                sb.append("\n");
+                sb.append("    ").append("public ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" get").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n\n");
             }
             }
         }
@@ -517,16 +558,18 @@ public class GeneratorUtil {
      */
     public static String createBaseData(Map<String, String> entityData) {
         StringBuilder sb = new StringBuilder();
+        String time = createTime();
+        String s = time.split("-")[0];
         sb.append("<#--\n" +
                 "/****************************************************\n" +
                 " * Description: 列表页面\n" +
-                " * Copyright:   Copyright (c) 2019\n" +
+                " * Copyright:   Copyright (c) ("+s+")\n" +
                 " * Company:     beiwaionline\n" +
                 " * @author      bfsu\n" +
                 " * @version     1.0\n" +
                 " * @see\n" +
                 "\tHISTORY\n" +
-                "    *  2019-01-13 bfsu Create File\n" +
+                "    *  ("+time+") bfsu Create File\n" +
                 "**************************************************/" +
                 "-->\n");
         sb.append("<#include \"/templates/ace/ace-inc.ftl\">\n\n").append("<@html>\n\n").append("<@head>\n\n")
@@ -551,16 +594,18 @@ public class GeneratorUtil {
      */
     public static String createBaseDataInput(Map<String,String> entityData) {
         StringBuilder sb = new StringBuilder();
+        String time = createTime();
+        String s = time.split("-")[0];
         sb.append("<#--\n" +
                 "/****************************************************\n" +
                 " * Description: 输入页面，包括添加和修改\n" +
-                " * Copyright:   Copyright (c) 2019\n" +
+                " * Copyright:   Copyright (c) ("+s+")\n" +
                 " * Company:     beiwaionline\n" +
                 " * @author      bfsu\n" +
                 " * @version     1.0\n" +
                 " * @see\n" +
                 "\tHISTORY\n" +
-                "    *  2019-01-13 bfsu Create File\n" +
+                "    *  ("+time+") bfsu Create File\n" +
                 "**************************************************/" +
                 "-->\n");
         sb.append("<#include \"/templates/ace/ace-inc.ftl\">\n\n")
@@ -584,50 +629,64 @@ public class GeneratorUtil {
     /**
      * list页面
      * @param entityData
-     * @param entityData
+     * @param tableInfos
      * @return
      */
-    public static String createBaseDataList(Map<String,String> entityData) {
+    public static String createBaseDataList(Map<String, String> entityData, List<ColumnInfo> tableInfos) {
         StringBuilder sb = new StringBuilder();
+        String time = createTime();
+        String s = time.split("-")[0];
         sb.append("<#--\n" +
                 "/****************************************************\n" +
                 " * Description: 简单列表页面，没有编辑功能\n" +
-                " * Copyright:   Copyright (c) 2019\n" +
+                " * Copyright:   Copyright (c) ("+s+")\n" +
                 " * Company:     beiwaionline\n" +
                 " * @author      bfsu\n" +
                 " * @version     1.0\n" +
                 " * @see\n" +
                 "\tHISTORY\n" +
-                "    *  2019-01-13 bfsu Create File\n" +
+                "    *  ("+time+") bfsu Create File\n" +
                 "**************************************************/" +
                 "-->\n");
         sb.append("<#include \"/templates/ace/ace-inc.ftl\">\n\n")
                 .append("<@list>\n")
                 .append("\t<thead>\n")
                 .append("\t\t<tr>\n")
-                .append("\t\t\t<th><input type=\"checkbox\" class=\"bscheckall\"></th>\n")
-                .append("\t\t\t<th>"+entityData.get("Title")+"名称</th>\n").append("\t\t\t<th>是否有效</th>\n")
-                .append("\t\t\t<th>创建人姓名</th>\n").append("\t\t\t<th>创建时间</th>\n").append("\t\t\t<th>更新人姓名</th>\n")
-                .append("\t\t\t<th>更新时间</th>\n").append("\t\t\t<th>操作</th>\n").append("\t\t</tr>\n").append("\t\t</thead>\n")
-                .append("\t\t<tbody>\n")
-                .append("\t\t\t<#list page.items?if_exists as item>\n")
-                .append("\t\t\t\t<tr>\n")
-                .append("\t\t\t\t\t<td><input type=\"checkbox\" class=\"bscheck\" data=\"id:${item.id}\"></td>\n")
-                .append("\t\t\t\t\t<td>\n").append("\t\t\t\t\t\t${item.title}\n").append("\t\t\t\t\t</td>\n")
-                .append("\t\t\t\t\t<td>\n").append("\t\t\t\t\t\t${item.status}\n").append("\t\t\t\t\t</td>\n")
-                .append("\t\t\t\t\t<td>\n").append("\t\t\t\t\t\t${item.createUserName}\n").append("\t\t\t\t\t</td>\n")
-                .append("\t\t\t\t\t<td>\n").append("\t\t\t\t\t\t${item.createTime}\n").append("\t\t\t\t\t</td>\n")
-                .append("\t\t\t\t\t<td>\n").append("\t\t\t\t\t\t${item.updateUserName}\n").append("\t\t\t\t\t</td>\n")
-                .append("\t\t\t\t\t<td>\n").append("\t\t\t\t\t\t${item.updateTime}\n").append("\t\t\t\t\t</td>\n")
-                .append("\t\t\t\t\t<td>\n")
-                .append("\t\t\t\t\t\t<@sec pcode=\""+entityData.get("ParentPath")+"."+entityData.get("EntityName")+"\" fcode=\"edit\">\n")
-                .append("\t\t\t\t\t\t\t<@button icon=\"pencil\" type=\"primary\" size=\"sm\" onclick=\"bfsu.add('${base}/base/"+entityData.get("EntityName")+"/input/${item.id}','修改"+entityData.get("Title")+"');\">修改"+entityData.get("Title")+"</@button>\n")
-                .append("\t\t\t\t\t\t</@sec>\n")
-                .append("\t\t\t\t\t\t<@sec pcode=\""+entityData.get("ParentPath")+"."+entityData.get("EntityName")+"\" fcode=\"delete\">\n")
-                .append("\t\t\t\t\t\t\t<@button icon=\"remove\" \t type=\"primary\" onclick=\"bfsu.del('${base}/base/"+entityData.get("EntityName")+"/delete/${item.id}','从列表中删除？')\">删除</@button>\n")
-                .append("\t\t\t\t\t\t</@sec>\n")
-                .append("\t\t\t\t\t</td>\n")
-                .append("\t\t\t\t</tr>\n").append("\t\t\t</#list>\n").append("\t\t</tbody>\n").append("</@list>\n");
+                .append("\t\t\t<th><input type=\"checkbox\" class=\"bscheckall\"></th>\n");
+                for(int i=0;i<tableInfos.size();i++){
+                    if(tableInfos.get(i).getPropertyName().equalsIgnoreCase("createUserId")
+                            || tableInfos.get(i).getPropertyName().equalsIgnoreCase("createUserName")
+                            || tableInfos.get(i).getPropertyName().equalsIgnoreCase("createTime")
+                            || tableInfos.get(i).getPropertyName().equalsIgnoreCase("updateUserId")
+                            || tableInfos.get(i).getPropertyName().equalsIgnoreCase("updateUserName")){
+                        continue;
+                    }
+                    sb.append("\t\t\t<th>"+tableInfos.get(i).getComment()+"</th>\n");
+                }
+                sb.append("\t\t</tr>\n").append("\t</thead>\n")
+                .append("\t<tbody>\n")
+                .append("\t\t<#list page.items?if_exists as item>\n")
+                .append("\t\t\t<tr>\n")
+                .append("\t\t\t\t<td><input type=\"checkbox\" class=\"bscheck\" data=\"id:${item.id}\"></td>\n");
+                for(int i=0;i<tableInfos.size();i++){
+                    if(tableInfos.get(i).getPropertyName().equalsIgnoreCase("createUserId")
+                            || tableInfos.get(i).getPropertyName().equalsIgnoreCase("createUserName")
+                            || tableInfos.get(i).getPropertyName().equalsIgnoreCase("createTime")
+                            || tableInfos.get(i).getPropertyName().equalsIgnoreCase("updateUserId")
+                            || tableInfos.get(i).getPropertyName().equalsIgnoreCase("updateUserName")){
+                        continue;
+                    }
+                  sb .append("\t\t\t\t<td>\n").append("\t\t\t\t\t${item."+tableInfos.get(i).getPropertyName()+"}\n").append("\t\t\t\t</td>\n");
+                }
+                 sb.append("\t\t\t\t\t<td>\n")
+                .append("\t\t\t\t\t<@sec pcode=\""+entityData.get("ParentPath")+"."+entityData.get("EntityName")+"\" fcode=\"edit\">\n")
+                .append("\t\t\t\t\t\t<@button icon=\"pencil\" type=\"primary\" size=\"sm\" onclick=\"bfsu.add('${base}/base/"+entityData.get("EntityName")+"/input/${item.id}','修改"+entityData.get("Title")+"');\">修改"+entityData.get("Title")+"</@button>\n")
+                .append("\t\t\t\t\t</@sec>\n")
+                .append("\t\t\t\t\t<@sec pcode=\""+entityData.get("ParentPath")+"."+entityData.get("EntityName")+"\" fcode=\"delete\">\n")
+                .append("\t\t\t\t\t\t<@button icon=\"remove\" \t type=\"primary\" onclick=\"bfsu.del('${base}/base/"+entityData.get("EntityName")+"/delete/${item.id}','从列表中删除？')\">删除</@button>\n")
+                .append("\t\t\t\t\t</@sec>\n")
+                .append("\t\t\t\t</td>\n")
+                .append("\t\t\t</tr>\n").append("\t\t</#list>\n").append("\t</tbody>\n").append("</@list>\n");
 
         return sb.toString();
     }

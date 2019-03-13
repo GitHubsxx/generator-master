@@ -42,8 +42,8 @@ public class Main {
 
     public static void single() {
         Invoker invoker = new SingleInvoker.Builder()
-                .setTableName("t_dea_class_schedule_classes")
-                .setClassName("TeacherTask")
+                .setTableName("T_BAS_SCHOOL")
+                .setClassName("School")
                 .build();
         invoker.execute();
     }

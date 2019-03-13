@@ -40,6 +40,7 @@ public class HibernateTask extends BaseTask {
         // 生成Hibernate填充数据
         System.out.println("Generating " + className + "-"+"hibernate.hbm.xml");
         Map<String, String> mapperData = new HashMap<>();
+        mapperData.put("ParentPath",ConfigUtil.getConfiguration().getParentPath());
         mapperData.put("PackageName", ConfigUtil.getConfiguration().getPackageName() + "." + ConfigUtil.getConfiguration().getPath().getDao());
         mapperData.put("BasePackageName", ConfigUtil.getConfiguration().getPackageName());
         mapperData.put("DaoPackageName", ConfigUtil.getConfiguration().getPath().getDao());
@@ -68,8 +69,10 @@ public class HibernateTask extends BaseTask {
             mapperData.put("ColumnMap", GeneratorUtil.generateMapperColumnMap(tableName, tableInfos));
             mapperData.put("ResultMap", GeneratorUtil.generateHibernateResultMap(tableInfos));
         }
+        String parentPath = ConfigUtil.getConfiguration().getParentPath();
+        mapperData.put("TableName","T_"+parentPath.toUpperCase()+"_"+className.toUpperCase());
         String filePath = FileUtil.getResourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getMapper());
-        String fileName = className +"-"+"mysql"+ "-"+"hibernate.hbm.xml";
+        String fileName = LowerCaseUtils.firstLower(className) +"-"+"mysql"+ "-"+"hibernate.hbm.xml";
         // 生成Hibernate文件
         FileUtil.generateToJava(FreemarketConfigUtils.TYPE_HIBERNATE, mapperData, filePath + fileName);
     }

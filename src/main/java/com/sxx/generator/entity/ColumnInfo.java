@@ -14,6 +14,7 @@ public class ColumnInfo implements Serializable {
     private String propertyName; // 属性名
     private boolean isPrimaryKey; // 是否主键
     private int precision;//列的length
+    private String comment;//列的注释
 
     public ColumnInfo() {
 
@@ -65,5 +66,13 @@ public class ColumnInfo implements Serializable {
 
     public void setPrecision(int precision) {
         this.precision = precision;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

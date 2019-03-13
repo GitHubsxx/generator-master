@@ -30,4 +30,30 @@ public class LowerCaseUtils {
         }
         return sb.toString().toLowerCase();
     }
+
+    /**
+     * 字符串首字母大写
+     * @param s
+     * @return
+     */
+    public static String firstUpper(String s){
+        StringBuilder sb = new StringBuilder(s);
+
+        sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+
+        return sb.toString();
+    }
+
+    /**
+     * 首字母小写
+     * @param s
+     * @return
+     */
+    public static String firstLower(String s){
+        StringBuilder sb = new StringBuilder(s);
+
+        sb.setCharAt(0, Character.toLowerCase(sb.charAt(0)));
+
+        return sb.toString();
+    }
 }
