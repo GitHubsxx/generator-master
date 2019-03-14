@@ -5,7 +5,7 @@ db:
 author: sxx
 packageName: com.bwol.adultEdu.base
 parentPath: base
-title: 学校
+title: 测试
 path:
   controller: controller
   service: service

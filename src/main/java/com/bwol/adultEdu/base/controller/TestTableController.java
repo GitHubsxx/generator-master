@@ -1,16 +1,16 @@
 /****************************************************
- * Description: Controller for 学校管理
+ * Description: Controller for 测试管理
  * Copyright:   Copyright (c) 2019
  * Company:     beiwaionline
  * @author      bfsu
  * @version     1.0
  * @see
- *  2019-03-13 bfsu Create File
+ *  2019-03-14 bfsu Create File
  **************************************************/
 package com.bwol.adultEdu.base.controller;
 
-import com.bwol.adultEdu.base.entity.School;
-import com.bwol.adultEdu.base.service.SchoolService;
+import com.bwol.adultEdu.base.entity.TestTable;
+import com.bwol.adultEdu.base.service.TestTableService;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,15 +40,15 @@ import java.util.List;
 
 /**
  * Author sxx
- * Date  2019-03-13
+ * Date  2019-03-14
  */
 @Controller
-@RequestMapping(value = "/base/school")
-public class SchoolController extends SpringControllerSupport{
+@RequestMapping(value = "/base/testTable")
+public class TestTableController extends SpringControllerSupport{
     @Autowired
-    private SchoolService schoolService;
+    private TestTableService testTableService;
 
-    @SecPrivilege(title="学校管理")
+    @SecPrivilege(title="测试管理")
     @RequestMapping("/index")
     public String index(Model model){
         return getViewNamedPath("index");
@@ -59,31 +59,31 @@ public class SchoolController extends SpringControllerSupport{
             @QueryParameter("query") QueryParam query,
             @ModelAttribute("page") Pagination page){
 
-        page = schoolService.getPage(query, page);
+        page = testTableService.getPage(query, page);
 
         return getViewNamedPath("list");
     }
-    @SecCreate(title="添加学校")
+    @SecCreate(title="添加测试")
     @RequestMapping("/input")
-    public String create(@ModelAttribute School school, Model model){
+    public String create(@ModelAttribute TestTable testTable, Model model){
 
         return getViewNamedPath("input");
     }
-    @SecEdit(title="修改学校")
+    @SecEdit(title="修改测试")
     @RequestMapping("/input/{id}")
     public String edit(@PathVariable("id") Long id, Model model){
 
-                School school = this.schoolService.getById(id);
-                model.addAttribute(school);
+                TestTable testTable = this.testTableService.getById(id);
+                model.addAttribute(testTable);
 
             return getViewNamedPath("input");
     }
     @RequestMapping("/save")
-    public @ResponseBody MessageJson save(@ModelAttribute School school){
+    public @ResponseBody MessageJson save(@ModelAttribute TestTable testTable){
             LoginInfo loginInfo = super.getLoginInfo();
             //校验
-            validateSave(school);
-            this.schoolService.saveOrUpdatePro(school,loginInfo);
+            validateSave(testTable);
+            this.testTableService.saveOrUpdatePro(testTable,loginInfo);
 
         return MessageJson.information("保存成功");
     }
@@ -91,29 +91,29 @@ public class SchoolController extends SpringControllerSupport{
     /**
     * 数据校验
     **/
-    private void validateSave(School school){
+    private void validateSave(TestTable testTable){
 
             //必填项校验
-            if(school.getId() == null){
-                throw new ValidationException("请选择学校");
+            if(testTable.getId() == null){
+                throw new ValidationException("请选择测试");
             }
             QueryParam query = new DefaultQueryParam();
-            if(school.getId()!=null && school.getId() > 0){
-            query.addQuery("id!ne@l", school.getId());
+            if(testTable.getId()!=null && testTable.getId() > 0){
+            query.addQuery("id!ne@l", testTable.getId());
             }
-            query.addQuery("title!eq@s", school.getTitle());
-            List<School> schoolList = this.schoolService.findAll(query);
-                if(CollectionUtils.isNotEmpty(schoolList)){
-                throw new ValidationException("学校名称已经存在");
+            query.addQuery("title!eq@s", testTable.getTitle());
+            List<TestTable> testTableList = this.testTableService.findAll(query);
+                if(CollectionUtils.isNotEmpty(testTableList)){
+                throw new ValidationException("测试名称已经存在");
             }
 
     }
     @SecDelete
     @RequestMapping("/delete/{id}")
     public @ResponseBody MessageJson delete(@PathVariable("id") Long id){
-        if(schoolService.isDeletable(id)){
-            this.schoolService.delete(id);
-            BfsuolLogger.data("学校删除，","学校id:"+id);
+        if(testTableService.isDeletable(id)){
+            this.testTableService.delete(id);
+            BfsuolLogger.data("测试删除，","测试id:"+id);
         }
         return MessageJson.information("成功删除1条");
     }
@@ -125,8 +125,8 @@ public class SchoolController extends SpringControllerSupport{
             return MessageJson.error("没有删除");
         }
         for(Long id : ids){
-            if(schoolService.isDeletable(id)){
-                schoolService.delete(id);
+            if(testTableService.isDeletable(id)){
+                testTableService.delete(id);
             }
         }
         StringBuffer sb = new StringBuffer();
@@ -137,7 +137,7 @@ public class SchoolController extends SpringControllerSupport{
                 sb.append(","+ids[i]);
             }
         }
-        BfsuolLogger.data("批量删除学校，","学校ids:"+sb.toString()+"，数量:"+ids.length);
+        BfsuolLogger.data("批量删除测试，","测试ids:"+sb.toString()+"，数量:"+ids.length);
         return MessageJson.information("成功删除"+ids.length+"条");
     }
 }

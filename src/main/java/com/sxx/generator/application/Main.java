@@ -12,8 +12,8 @@ import com.sxx.generator.invoker.base.Invoker;
 public class Main {
 
     public static void main(String[] args) {
-        single();
-        //one2many();
+        //single();
+        one2many();
     }
 
     public static void many2many() {
@@ -31,11 +31,11 @@ public class Main {
 
     public static void one2many() {
         Invoker invoker = new One2ManyInvoker.Builder()
-                .setTableName("t_enr_learner")
-                .setClassName("Learner")
-                .setParentTableName("t_bas_level")
-                .setParentClassName("Level")
-                .setForeignKey("level")
+                .setTableName("testtable")
+                .setClassName("TestTable")
+                .setParentTableName("t_base_school")
+                .setParentClassName("School")
+                .setForeignKey("school_id")
                 .build();
         invoker.execute();
     }

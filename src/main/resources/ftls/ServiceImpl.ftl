@@ -74,6 +74,6 @@ public class ${ClassName}ServiceImpl extends ServiceSupport<${ClassName}> implem
                 logger.info("${EntityName} param:",JSON.toJSONString(${EntityName}),e);
                 throw new ValidationException("保存失败");
              }
-    };
+        }
 
 }

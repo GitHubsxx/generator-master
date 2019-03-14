@@ -80,9 +80,11 @@ public class GeneratorUtil {
                 }
                 //主键就id
                 if(infos.get(i).isPrimaryKey())
-                    sb.append("private ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append("id").append(";\n");
+                    sb.append("private ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append("id").append(";")
+                            .append("//").append(infos.get(i).getComment()).append("\n");
                 else
-                sb.append("private ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append("; \n");
+                sb.append("private ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(";")
+                        .append("//").append(infos.get(i).getComment()).append("\n");
             }
         }
         // 外键为父表实体引用
@@ -127,18 +129,18 @@ public class GeneratorUtil {
                 sb.append("    ");
                 sb.append("public void set").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append(" (").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(") {this.").append(infos.get(i).getPropertyName()).append(" = ").append(infos.get(i).getPropertyName()).append(";} \n\n");
             if (infos.get(i).getType() == Types.BIT || infos.get(i).getType() == Types.TINYINT) {
-            sb.append(" \t/**\n" +
-                        "     * 返回"+infos.get(i).getComment()+"\n" +
-                        "     * @return "+infos.get(i).getComment()+"\n" +
-                        "     */");
-                sb.append("\n");
+                sb.append(" \t/**\n" +
+                            "     * 返回"+infos.get(i).getComment()+"\n" +
+                            "     * @return "+infos.get(i).getComment()+"\n" +
+                            "     */");
+                    sb.append("\n");
                 sb.append("    ").append("public ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" is").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n\n");
             } else {
-            sb.append("\t/**\n" +
-                        "     * 返回"+infos.get(i).getComment()+"\n" +
-                        "     * @return "+infos.get(i).getComment()+"\n" +
-                        "     */");
-                sb.append("\n");
+                sb.append("\t/**\n" +
+                            "     * 返回"+infos.get(i).getComment()+"\n" +
+                            "     * @return "+infos.get(i).getComment()+"\n" +
+                            "     */");
+                    sb.append("\n");
                 sb.append("    ").append("public ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" get").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n\n");
             }
             }
@@ -177,20 +179,56 @@ public class GeneratorUtil {
                 }
                 //主键id
                 if (infos.get(i).isPrimaryKey()) {
+                    sb.append(" /**\n" +
+                            "     * @param 主键\n" +
+                            "     */");
+                    sb.append("\n");
+                    sb.append("    ");
                     sb.append("public void setId").append(" (").append("Long").append(" ").append("id").append(") {this.").append("id").append(" = ").append("id").append(";} \n");
-                    sb.append("    ").append("public ").append("Long").append(" getId").append("(){ return ").append("id").append(";} \n");
+                    sb.append("    ")
+                            .append(" /**\n" +
+                                    "     * @return 主键\n" +
+                                    "     */");
+                    sb.append("\n");
+                    sb.append("    ");
+                    sb.append("public ").append("Long").append(" getId").append("(){ return ").append("id").append(";} \n");
                 }else {
+                    sb.append(" /**\n" +
+                            "     * 设置"+infos.get(i).getComment()+"\n" +
+                            "     * @param ("+infos.get(i).getPropertyName()+") ("+infos.get(i).getComment()+")\n" +
+                            "     */");
+                    sb.append("\n");
+                    sb.append("    ");
                     sb.append("public void set").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append(" (").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" ").append(infos.get(i).getPropertyName()).append(") {this.").append(infos.get(i).getPropertyName()).append(" = ").append(infos.get(i).getPropertyName()).append(";} \n");
                     if (infos.get(i).getType() == Types.BIT || infos.get(i).getType() == Types.TINYINT) {
+                        sb.append(" \t/**\n" +
+                                "     * 返回"+infos.get(i).getComment()+"\n" +
+                                "     * @return "+infos.get(i).getComment()+"\n" +
+                                "     */");
+                        sb.append("\n");
                         sb.append("    ").append("public ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" is").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n");
                     } else {
+                        sb.append("\t/**\n" +
+                                "     * 返回"+infos.get(i).getComment()+"\n" +
+                                "     * @return "+infos.get(i).getComment()+"\n" +
+                                "     */");
+                        sb.append("\n");
                         sb.append("    ").append("public ").append(TypeUtil.parseTypeFormSqlType(infos.get(i).getType())).append(" get").append(StringUtil.firstToUpperCase(infos.get(i).getPropertyName())).append("(){ return ").append(infos.get(i).getPropertyName()).append(";} \n");
                     }
                 }
             }
         }
         // 外键为存取父表实体引用
+        sb.append("\t/**\n" +
+                "     * @param 外键\n" +
+                "     */");
+        sb.append("\n");
         sb.append("    ").append("public void set").append(parentClassName).append(" (").append(parentClassName).append(" ").append(StringUtil.firstToLowerCase(parentClassName)).append(") {this.").append(StringUtil.firstToLowerCase(parentClassName)).append(" = ").append(StringUtil.firstToLowerCase(parentClassName)).append(";} \n");
+        sb.append("    ")
+                .append(" /**\n" +
+                        "     * @return 外键\n" +
+                        "     */");
+        sb.append("\n");
         sb.append("    ").append("public ").append(parentClassName).append(" get").append(parentClassName).append("(){ return this.").append(StringUtil.firstToLowerCase(parentClassName)).append(";} \n");
         return sb.toString();
     }
@@ -273,7 +311,7 @@ public class GeneratorUtil {
                 sb.append("\t\t</id>\n\n");
                 //sb.append("<id column=\"").append(info.getPropertyName()).append("\" property=\"").append(info.getPropertyName()).append("\"/> \n");
             } else if (info.getColumnName().equalsIgnoreCase(foreignKey)){
-                sb.append("\t\t<many-to-one name=\""+info.getPropertyName()+"\"  class=\""+mapperData.get("BasePackageName")+mapperData.get("EntityPackageName")+"."+parentClassName+"\"  fetch=\"select\">\n");
+                sb.append("\t\t<many-to-one name=\""+StringUtil.firstToLowerCase(parentClassName)+"\"  class=\""+mapperData.get("BasePackageName")+mapperData.get("EntityPackageName")+"."+parentClassName+"\"  fetch=\"select\">\n");
                 sb.append("\t\t\t<column name=\""+generateHibernateName(info.getPropertyName())+"\" precision=\"16\" scale=\"0\" />\n");
                 sb.append("\t\t</many-to-one>\n");
 
@@ -563,13 +601,13 @@ public class GeneratorUtil {
         sb.append("<#--\n" +
                 "/****************************************************\n" +
                 " * Description: 列表页面\n" +
-                " * Copyright:   Copyright (c) ("+s+")\n" +
+                " * Copyright:   Copyright (c) "+s+"\n" +
                 " * Company:     beiwaionline\n" +
                 " * @author      bfsu\n" +
                 " * @version     1.0\n" +
                 " * @see\n" +
                 "\tHISTORY\n" +
-                "    *  ("+time+") bfsu Create File\n" +
+                "    *  "+time+" bfsu Create File\n" +
                 "**************************************************/" +
                 "-->\n");
         sb.append("<#include \"/templates/ace/ace-inc.ftl\">\n\n").append("<@html>\n\n").append("<@head>\n\n")
@@ -599,13 +637,13 @@ public class GeneratorUtil {
         sb.append("<#--\n" +
                 "/****************************************************\n" +
                 " * Description: 输入页面，包括添加和修改\n" +
-                " * Copyright:   Copyright (c) ("+s+")\n" +
+                " * Copyright:   Copyright (c) "+s+"\n" +
                 " * Company:     beiwaionline\n" +
                 " * @author      bfsu\n" +
                 " * @version     1.0\n" +
                 " * @see\n" +
                 "\tHISTORY\n" +
-                "    *  ("+time+") bfsu Create File\n" +
+                "    *  "+time+" bfsu Create File\n" +
                 "**************************************************/" +
                 "-->\n");
         sb.append("<#include \"/templates/ace/ace-inc.ftl\">\n\n")
@@ -639,13 +677,13 @@ public class GeneratorUtil {
         sb.append("<#--\n" +
                 "/****************************************************\n" +
                 " * Description: 简单列表页面，没有编辑功能\n" +
-                " * Copyright:   Copyright (c) ("+s+")\n" +
+                " * Copyright:   Copyright (c) "+s+"\n" +
                 " * Company:     beiwaionline\n" +
                 " * @author      bfsu\n" +
                 " * @version     1.0\n" +
                 " * @see\n" +
                 "\tHISTORY\n" +
-                "    *  ("+time+") bfsu Create File\n" +
+                "    *  "+time+" bfsu Create File\n" +
                 "**************************************************/" +
                 "-->\n");
         sb.append("<#include \"/templates/ace/ace-inc.ftl\">\n\n")
