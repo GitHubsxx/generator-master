@@ -23,6 +23,12 @@ public class FileUtil {
         if (file.exists()) {
             System.err.println("ERROR: " + file.getPath().substring(file.getPath().lastIndexOf("\\") + 1, file.getPath().length()) + " 已存在，请手动修改");
             return;
+        }else{
+            int last = filePath.lastIndexOf("\\");
+            String newPath = filePath.substring(0,last);
+            System.out.print(newPath);
+            File file_ = new File(newPath);
+            file_.mkdirs();
         }
         Template tpl = getTemplate(type); // 获取模板文件
         // 填充数据

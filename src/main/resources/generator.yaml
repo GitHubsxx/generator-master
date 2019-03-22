@@ -3,7 +3,7 @@ db:
   username: adult_edu
   password: adult_edu
 author: sxx
-packageName: com.bwol.adultEdu.base
+packageName: com.bwol.adultEdu.aaa
 parentPath: base
 title: 测试
 path:
