@@ -3,9 +3,9 @@ db:
   username: adult_edu
   password: adult_edu
 author: sxx
-packageName: com.bwol.adultEdu.aaa
-parentPath: base
-title: 测试
+packageName: com.bwol.adultEdu.exam
+parentPath: exam
+title: 安排考生
 path:
   controller: controller
   service: service

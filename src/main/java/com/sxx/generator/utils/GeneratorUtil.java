@@ -718,10 +718,10 @@ public class GeneratorUtil {
                 }
                  sb.append("\t\t\t\t\t<td>\n")
                 .append("\t\t\t\t\t<@sec pcode=\""+entityData.get("ParentPath")+"."+entityData.get("EntityName")+"\" fcode=\"edit\">\n")
-                .append("\t\t\t\t\t\t<@button icon=\"pencil\" type=\"primary\" size=\"sm\" onclick=\"bfsu.add('${base}/base/"+entityData.get("EntityName")+"/input/${item.id}','修改"+entityData.get("Title")+"');\">修改"+entityData.get("Title")+"</@button>\n")
+                .append("\t\t\t\t\t\t<@button icon=\"pencil\" type=\"primary\" size=\"sm\" onclick=\"bfsu.add('${base}/"+entityData.get("ParentPath")+"/"+entityData.get("EntityName")+"/input/${item.id}','修改"+entityData.get("Title")+"');\">修改"+entityData.get("Title")+"</@button>\n")
                 .append("\t\t\t\t\t</@sec>\n")
                 .append("\t\t\t\t\t<@sec pcode=\""+entityData.get("ParentPath")+"."+entityData.get("EntityName")+"\" fcode=\"delete\">\n")
-                .append("\t\t\t\t\t\t<@button icon=\"remove\" \t type=\"primary\" onclick=\"bfsu.del('${base}/base/"+entityData.get("EntityName")+"/delete/${item.id}','从列表中删除？')\">删除</@button>\n")
+                .append("\t\t\t\t\t\t<@button icon=\"remove\" \t type=\"primary\" onclick=\"bfsu.del('${base}/"+entityData.get("ParentPath")+"/"+entityData.get("EntityName")+"/delete/${item.id}','从列表中删除？')\">删除</@button>\n")
                 .append("\t\t\t\t\t</@sec>\n")
                 .append("\t\t\t\t</td>\n")
                 .append("\t\t\t</tr>\n").append("\t\t</#list>\n").append("\t</tbody>\n").append("</@list>\n");
