@@ -140,4 +140,17 @@ public class ${ClassName}Controller extends SpringControllerSupport{
         BfsuolLogger.data("批量删除${Title}，","${Title}ids:"+sb.toString()+"，数量:"+ids.length);
         return MessageJson.information("成功删除"+ids.length+"条");
     }
+    /**
+     * 导出
+    **/
+    @SecFunction(code = "export",title = "导出")
+    @RequestMapping("/export")
+    public void export(@QueryParameter("query") QueryParam query,
+                       HttpServletRequest request, HttpServletResponse response){
+        this.${EntityName}Service.export(query,request,response);
+        this.${EntityName}Service.getPage(query,null)
+        String[] column = {"年级","学号","姓名","函授站","专业","层次","手机号","指导老师"};
+        String[] field = {"annual","studentNumber","userName","studyCenter","specialty","level","mobile","thesisAdviser"};
+        ExcelUtil.createExcel(response, request,new HSSFWorkbook(),"导出信息",column,field,dtoList,"导出信息");
+    }
 }

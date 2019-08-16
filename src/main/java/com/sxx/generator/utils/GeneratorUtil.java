@@ -613,14 +613,33 @@ public class GeneratorUtil {
         sb.append("<#include \"/templates/ace/ace-inc.ftl\">\n\n").append("<@html>\n\n").append("<@head>\n\n")
                 .append("</@head>\n\n").append("<@body>\n\n").append("<@nav '"+entityData.get("Title")+"'/>\n\n")
                 .append("<@content url=\"${base}/"+entityData.get("ParentPath")+"/"+entityData.get("EntityName")+"/list\" >\n\n")
-                .append("\t\t<@query queryUrl=\"${base}/"+entityData.get("ParentPath")+"/"+entityData.get("EntityName")+"/list\">\n\n")
+                .append("\t\t<@query queryUrl=\"${base}/"+entityData.get("ParentPath")+"/"+entityData.get("EntityName")+"/list\" submitFlag=true >\n\n")
                 .append("\t\t\t<@querygroup  title='"+entityData.get("Title")+"名称'><input type='text' name='query.title!lk@s'  class=\"form-control\" placeholder=\"请输入"+entityData.get("Title")+"名称\"></@querygroup>\n\n")
-                .append("\t\t\t<@querygroup  title='状态'><@select list=BfsuolConstants.GLOBAL_YESNO name=\"query.isEnroll!eq@i\" listKey='' listValue='' id=\"statusSelect\" multi=false search=false/></@querygroup>\n\n")
+                .append("\t\t\t<@querygroup  title='状态'><@select list=BfsuolConstants.GLOBAL_YESNO name=\"query.isEnroll!eq@i\" listKey='' listValue='' id=\"statusSelect\" autoQuery=true/></@querygroup>\n\n")
+                .append("\t\t\t<@querygroup  title=\"年级\">\n")
+                .append("\t\t\t\t<@ajaxselect id=\"annualSelect\" name=\"query.thesisLearner|tl.learner|lr.annual|a.id!eq@l\" url=\"${base}/base/baseObjectJson/getAnnualJSON\" autoQuery=true/>\n")
+                .append("\t\t\t</@querygroup>")
                 .append("\t\t</@query>\n")
                 .append("\t\t<@sec pcode=\""+entityData.get("ParentPath")+"."+entityData.get("EntityName")+"\" fcode=\"create\">\n")
                 .append("\t\t\t<@button icon=\"pencil\" type=\"primary\" size=\"sm\" onclick=\"bfsu.add('${base}/"+entityData.get("ParentPath")+"/"+entityData.get("EntityName")+"/input','添加"+entityData.get("Title")+"');\">添加"+entityData.get("Title")+"</@button>\n")
                 .append("\t\t</@sec>\n")
-                .append("</@content>\n\n").append("</@body>\n\n").append("</@html>");
+                .append("</@content>\n\n").append("</@body>\n\n").append("</@html>")
+                .append("\n")
+                .append("<script>\n")
+                .append("\tfunction export() {\n")
+                .append("\t\t $(\"#queryForm\").attr(\"action\",\"${base}/"+entityData.get("ParentPath")+"/"+entityData.get("EntityName")+"/export\");\n")
+                .append("\t\t $(\"#queryForm\").submit();\n")
+                .append("\t\t $(\"#queryForm\").attr(\"action\",\"${base}/"+entityData.get("ParentPath")+"/"+entityData.get("EntityName")+"/list\");\n")
+                .append("\t }\n\n")
+                .append("\tfunction add() { \n")
+                .append("\t\t var opt=bfsu.getOptions();\n")
+                .append("\t\t var ids = bfsu.selectedIds(opt);\n")
+                .append("\t\t if(!ids || ids == \"\"){\n")
+                .append("\t\t\t bfsu.msger(\"请选择学生\");\n")
+                .append("\t\t\t return;\n")
+                .append("\t\t bfsu.add('${base}/"+entityData.get("ParentPath")+"/"+entityData.get("EntityName")+"/input'+ids,'添加');\n")
+                .append("\t }\n")
+                .append("</script>");
 
         return sb.toString();
     }
@@ -661,6 +680,18 @@ public class GeneratorUtil {
                 .append("\t\t<@formgroup title=\"专业\">\n" +
                         "\t\t\t<@ajaxselect id=\"specialtyIds\" name=\"specialtyIds\" value=\"${"+entityData.get("EntityName")+"?if_exists.specialtyIds}\" pid=\"levelIdInput\"  url=\"${base}/base/baseObjectJson/getInputSpecialtyJSON/[levelIdInput]\" multi=true />\n" +
                         "\t\t</@formgroup>\n")
+                .append("\t\t<@row >\n")
+                .append("\t\t\t<div class=\"form-group\">\n")
+                .append("\t\t\t\t<label class=\"control-label col-xs-3 col-sm-3 col-md-3 col-lg-3\"></label>\n")
+                .append("\t\t\t\t<div class=\"col-xs-5 col-sm-5 col-md-5 col-lg-5\" >\n")
+                .append("\t\t\t\t\t<b><font style=\"color:red;\">\n")
+                .append("\t\t\t\t\t\t说明：<br/>\n")
+                .append("\t\t\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;1)批量操作只会作用没有分配指导老师的学生<br/>\n")
+                .append("\t\t\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;2)已经分配指导老师的学生，点击添加按钮不会覆盖<br/>\n")
+                .append("\t\t\t\t\t</font></b>\n")
+                .append("\t\t\t\t</div>\n")
+                .append("\t\t\t</div>\n")
+                .append("\t\t</@row>\n")
                 .append("</@input>");
         return sb.toString();
     }

@@ -70,7 +70,7 @@ public class HibernateTask extends BaseTask {
             mapperData.put("ResultMap", GeneratorUtil.generateHibernateResultMap(tableInfos));
         }
         String parentPath = ConfigUtil.getConfiguration().getParentPath();
-        mapperData.put("TableName","T_"+parentPath.toUpperCase()+"_"+className.toUpperCase());
+        mapperData.put("TableName",tableName);
         String filePath = FileUtil.getResourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getMapper());
         String fileName = LowerCaseUtils.firstLower(className) +"-"+"mysql"+ "-"+"hibernate.hbm.xml";
         // 生成Hibernate文件
