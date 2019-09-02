@@ -618,7 +618,7 @@ public class GeneratorUtil {
                 .append("\t\t\t<@querygroup  title='状态'><@select list=BfsuolConstants.GLOBAL_YESNO name=\"query.isEnroll!eq@i\" listKey='' listValue='' id=\"statusSelect\" autoQuery=true/></@querygroup>\n\n")
                 .append("\t\t\t<@querygroup  title=\"年级\">\n")
                 .append("\t\t\t\t<@ajaxselect id=\"annualSelect\" name=\"query.thesisLearner|tl.learner|lr.annual|a.id!eq@l\" url=\"${base}/base/baseObjectJson/getAnnualJSON\" autoQuery=true/>\n")
-                .append("\t\t\t</@querygroup>")
+                .append("\t\t\t</@querygroup>\n")
                 .append("\t\t</@query>\n")
                 .append("\t\t<@sec pcode=\""+entityData.get("ParentPath")+"."+entityData.get("EntityName")+"\" fcode=\"create\">\n")
                 .append("\t\t\t<@button icon=\"pencil\" type=\"primary\" size=\"sm\" onclick=\"bfsu.add('${base}/"+entityData.get("ParentPath")+"/"+entityData.get("EntityName")+"/input','添加"+entityData.get("Title")+"');\">添加"+entityData.get("Title")+"</@button>\n")

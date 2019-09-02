@@ -55,7 +55,7 @@ public class ${ClassName}ServiceImpl extends ServiceSupport<${ClassName}> implem
             try{
                 if(${EntityName}.isNew()){
                     ${EntityName}.setCreateUserId(loginInfo.getUserId());
-                    ${EntityName}.setCreateUserName(loginInfo.getLoginName());
+                    ${EntityName}.setCreateUserName(loginInfo.getUserName());
                     ${EntityName}.setCreateTime(new Date());
                     this.${EntityName}DAO.save(${EntityName});
                 }else {
